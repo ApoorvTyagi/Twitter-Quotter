@@ -1,0 +1,8 @@
+Flask>=1.0.2
+heroku>=0.1.4
+py>=1.7.0
+requests>=2.20.0
+tweepy>=3.6.0
+Pillow
+textwrap3
+schedule
