@@ -20,6 +20,11 @@ auth = tweepy.OAuthHandler(consumer_key, consumer_secret_key)
 auth.set_access_token(access_token, access_token_secret)
 api = tweepy.API(auth)
 
+def get_daily_quote():
+    URL = "https://quotes.rest/qod?language=en"
+    response = requests.get(URL)
+    res = json.loads(response.text)
+    return res['contents']['quotes'][0]['quote'] + " ~" + res['contents']['quotes'][0]['author']
 
 def select_file():
     path =r'quotes'
@@ -99,6 +104,19 @@ def weekendTweet():
     except tweepy.TweepError as e:
         return e.response.text
 
+
+def tweet_quote():
+    try:
+        tweet = get_daily_quote() + "\n" + get_hashtag()
+        if len(tweet) > 280:
+            return "Failed, max tweet length reached : " + tweet
+        api.update_status(tweet)
+        return "Success"
+    
+    except tweepy.TweepError as e:
+        return e.response.text
+
+schedule.every().day.at("07:00").do(tweet_quote)
 schedule.every().sunday.at("11:00").do(weekendTweet)
 schedule.every().saturday.at("10:00").do(weekendTweet)
 schedule.every(1).minutes.do(respondToTweet) 
