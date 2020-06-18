@@ -3,6 +3,7 @@ import json
 import datetime
 import random
 import requests
+import logging 
 import Wallpaper
 import schedule
 import time
@@ -19,6 +20,9 @@ access_token_secret = environ['access_token_secret']
 auth = tweepy.OAuthHandler(consumer_key, consumer_secret_key)
 auth.set_access_token(access_token, access_token_secret)
 api = tweepy.API(auth)
+
+logger=logging.getLogger() 
+logger.setLevel(logging.DEBUG) 
 
 def get_daily_quote():
     URL = "https://quotes.rest/qod?language=en"
@@ -76,6 +80,7 @@ def respondToTweet(file='tweet_IDs.txt'):
     if len(mentions)==0:
         return
     new_id=0
+    logger.info("someone mentioned me...")
     for mention in reversed(mentions):
         print(str(mention.id) + '-' + mention.full_text)
         new_id=mention.id
@@ -87,37 +92,47 @@ def respondToTweet(file='tweet_IDs.txt'):
             # Upload image
             media = api.media_upload("pil_text.png")
             try:
+                logger.info("liking and replying to tweet")
                 api.create_favorite(mention.id)
                 api.update_status('@'+mention.user.screen_name +" Here's your #qod",mention.id, media_ids=[media.media_id])
             except:
+                logger.info('Error occured in replying to mentioned tweets')
                 print("Already sent to {}".format(mention.id))
-
+    logger.info('putting last tweet id as '+str(new_id))
     put_last_tweet(file,new_id)
 
 def weekendTweet():
+    logger.info('Inside weekend tweet')
     try:
         tweet = create_tweet() + "\n" + get_hashtag()
         if len(tweet) > 280:
-            return "Failed, max tweet length reached : " + tweet
+            logger.info("Failed, max tweet length reached : " + tweet)
+            return 
         api.update_status(tweet)
+        logger.info('SENT weekend tweet...')
         return "Success- Weekend Tweet Sent"
     except tweepy.TweepError as e:
+        logger.info('Error occured in daily tweet')
         return e.response.text
 
 
 def tweet_quote():
+    logger.info('Inside daily tweet function')
     try:
         tweet = get_daily_quote() + "\n" + get_hashtag()
         if len(tweet) > 280:
-            return "Failed, max tweet length reached : " + tweet
+            logger.info("Failed, max tweet length reached : " + tweet)
+            return 
         api.update_status(tweet)
+        logger.info('SENT daily tweet...')
         return "Success"
     
     except tweepy.TweepError as e:
+        logger.info('Error occured in daily tweet')
         return e.response.text
 
 schedule.every().day.at("07:00").do(tweet_quote)
-schedule.every().sunday.at("11:00").do(weekendTweet)
+schedule.every().sunday.at("12:00").do(weekendTweet)
 schedule.every().saturday.at("10:00").do(weekendTweet)
 schedule.every(1).minutes.do(respondToTweet) 
 while True:
