@@ -21,7 +21,8 @@ auth = tweepy.OAuthHandler(consumer_key, consumer_secret_key)
 auth.set_access_token(access_token, access_token_secret)
 api = tweepy.API(auth)
 
-logger=logging.getLogger() 
+logger=logging.getLogger()
+logging.basicConfig(level=logging.INFO)
 logger.setLevel(logging.DEBUG) 
 
 def get_daily_quote():
@@ -98,7 +99,6 @@ def respondToTweet(file='tweet_IDs.txt'):
             except:
                 logger.info('Error occured in replying to mentioned tweets')
                 print("Already sent to {}".format(mention.id))
-    logger.info('putting last tweet id as '+str(new_id))
     put_last_tweet(file,new_id)
 
 def weekendTweet():
@@ -106,7 +106,7 @@ def weekendTweet():
     try:
         tweet = create_tweet() + "\n" + get_hashtag()
         if len(tweet) > 280:
-            logger.info("Failed, max tweet length reached : " + tweet)
+            logger.info("Failed, max tweet length reached")
             return 
         api.update_status(tweet)
         logger.info('SENT weekend tweet...')
@@ -121,7 +121,7 @@ def tweet_quote():
     try:
         tweet = get_daily_quote() + "\n" + get_hashtag()
         if len(tweet) > 280:
-            logger.info("Failed, max tweet length reached : " + tweet)
+            logger.info("Failed, max tweet length reached")
             return 
         api.update_status(tweet)
         logger.info('SENT daily tweet...')
