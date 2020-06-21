@@ -23,11 +23,16 @@ api = tweepy.API(auth)
 
 logger=logging.getLogger()
 logging.basicConfig(level=logging.INFO)
-logger.setLevel(logging.DEBUG) 
+logger.setLevel(logging.INFO) 
 
 def get_daily_quote():
     URL = "https://quotes.rest/qod?language=en"
-    response = requests.get(URL)
+    try:
+        logger.info('Hitting URL to get tweet...')
+        response = requests.get(URL)
+    except:
+        logger.info('Failure occured in hitting URL')
+        return ""
     res = json.loads(response.text)
     return res['contents']['quotes'][0]['quote'] + " ~" + res['contents']['quotes'][0]['author']
 
@@ -119,7 +124,11 @@ def weekendTweet():
 def tweet_quote():
     logger.info('Inside daily tweet function')
     try:
-        tweet = get_daily_quote() + "\n" + get_hashtag()
+        quote = get_daily_quote()
+        if len(quote) < 5:
+            logger.info('Did not receive any tweet')
+            return 
+        tweet =  quote + "\n" + get_hashtag()
         if len(tweet) > 280:
             logger.info("Failed, max tweet length reached")
             return 
@@ -131,9 +140,9 @@ def tweet_quote():
         logger.info('Error occured in daily tweet')
         return e.response.text
 
-schedule.every().day.at("07:00").do(tweet_quote)
+schedule.every().day.at("06:00").do(tweet_quote)
 schedule.every().sunday.at("12:00").do(weekendTweet)
-schedule.every().saturday.at("10:00").do(weekendTweet)
+schedule.every().saturday.at("09:00").do(weekendTweet)
 schedule.every(1).minutes.do(respondToTweet) 
 while True:
     schedule.run_pending() 

@@ -1,10 +1,10 @@
 Flask>=1.0.2
 heroku>=0.1.4
 py>=1.7.0
-requests>=2.20.0
+requests>=2.21.0
 tweepy>=3.6.0
-Pillow
-textwrap3
+Pillow>=5.3.0
+textwrap3>=0.9.2
 urllib3>=1.22
-schedule
+schedule>=0.6.0
 requests-oauthlib>=1.0.0
