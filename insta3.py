@@ -56,7 +56,6 @@ reddit = praw.Reddit(
 
 def get_random_subreddit():
     logger.info("Selceting random subreddit...")
-    #subreddits = ["Wallpapers"]
     subreddits = [
         "Wallpaper",
         "Wallpapers",
@@ -75,7 +74,7 @@ def remove_file(File):
     os.remove(File)
 
 def upload(fileName,title):
-    newTitle=title+"\n"+hashtag.get_hashtags(title)
+    newTitle=title+"\n\n"+hashtag.get_hashtags()
     logger.info("Inside Insta Upload function...")
     try:
         bot.login(username = insta_user_name, password = insta_pass)
