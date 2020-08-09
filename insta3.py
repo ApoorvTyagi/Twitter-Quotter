@@ -56,9 +56,8 @@ reddit = praw.Reddit(
 
 def get_random_subreddit():
     logger.info("Selceting random subreddit...")
-    #"Wallpaper",
     subreddits = [
-        
+        "Wallpaper",   
         "Wallpapers",
         "BackgroundArt",
         "naturepics",
