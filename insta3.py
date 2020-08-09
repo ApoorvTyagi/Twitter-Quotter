@@ -97,9 +97,9 @@ def upload_wallpaper():
 
     for post in topPost:
         url = post.url
-        logger.info('url is :',str(url))
-        logger.info("Post_id is " , str(post.id))
-        logger.info("Caption is ", str(post.title))
+        #logger.info('url is :' + str(url))
+        #logger.info("Post_id is " + str(post.id))
+        logger.info("Caption is " + str(post.title))
         
         if tryCount>3:
             return "Failure, Try-Count Limit Exceeded"
