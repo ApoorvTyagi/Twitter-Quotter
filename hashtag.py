@@ -28,4 +28,7 @@ def get_hashtags():
     '''
     return DEFAULT_HASHTAGS
 
-print(get_hashtags())
+def get_quote_hashtags():
+    hashtags = "#motivation #quote #inspiration #dailyquotes #wisewords #wordsofwisdom #quoteoftheday #hustle #quotesdaily #qod"
+    return hashtags
+

@@ -10,6 +10,7 @@ import time
 import os
 from os import environ
 import insta3
+import instaQuote
 
 consumer_key = environ['API_key']
 consumer_secret_key = environ['API_secret_key']
@@ -119,12 +120,15 @@ def respondToTweet(file='tweet_IDs.txt'):
 def weekendTweet():
     logger.info('Inside weekend tweet')
     try:
-        tweet = create_tweet() + "\n" + get_hashtag()
+        fetched_tweet = create_tweet()
+        tweet = fetched_tweet + "\n" + get_hashtag()
         if len(tweet) > 280:
             logger.info("Failed, max tweet length reached")
             return
         api.update_status(tweet)
         logger.info('SENT weekend tweet...✔')
+        logger.info('Now going to Instagram')
+        instaQuote.write_on_img(fetched_tweet)
         return "Success- Weekend Tweet Sent"
     except tweepy.TweepError as e:
         logger.info('Error occurred in weekend tweet')
@@ -156,7 +160,7 @@ schedule.every().sunday.at("12:00").do(weekendTweet)
 schedule.every(1).minutes.do(respondToTweet)
 schedule.every().monday.at("06:30").do(insta3.resetFilter)
 schedule.every().day.at("07:00").do(insta3.upload_wallpaper)
-schedule.every().day.at("14:40").do(insta3.upload_wallpaper)
+schedule.every().day.at("15:00").do(insta3.upload_wallpaper)
 while True:
     schedule.run_pending()
     time.sleep(1)

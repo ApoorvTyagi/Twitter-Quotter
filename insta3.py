@@ -9,6 +9,8 @@ from instabot import Bot
 from os import environ
 import hashtag
 
+
+
 insta_user_name = environ['INSTA_NAME']
 insta_pass = environ['INSTA_PASS']
 
@@ -17,6 +19,7 @@ clientSecret = environ['REDDIT_CLIENT_SECRET']
 redditName = environ['REDDIT_NAME']
 redditPass = environ['REDDIT_PASS']
 userAgent = environ['REDDIT_USER_AGENT']
+
 
 logger = logging.getLogger()
 logging.basicConfig(level=logging.INFO)
@@ -73,9 +76,15 @@ def remove_file(File):
     time.sleep(2)
     os.remove(File)
 
-def upload(fileName,title):
-    newTitle=title+"\n\n"+hashtag.get_hashtags()
+def upload(fileName,title,type_of):
     logger.info("Inside Insta Upload function...")
+    if type_of==1:
+        logger.info("call from reddit")
+        newTitle=title+"\n\n"+hashtag.get_hashtags()
+    else:
+        logger.info("call from weekend twitter")
+        newTitle=title+"\n\n"+hashtag.get_quote_hashtags()
+        
     try:
         bot.login(username = insta_user_name, password = insta_pass)
         bot.upload_photo(fileName, caption = newTitle)
@@ -137,4 +146,4 @@ def upload_wallpaper():
     caption = re.sub(r'\[.*\]', '', caption)
 
     
-    return upload(file_name,caption)
+    return upload(file_name,caption,1)
