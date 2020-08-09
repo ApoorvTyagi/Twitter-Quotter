@@ -9,6 +9,7 @@ import schedule
 import time
 import os
 from os import environ
+import insta3
 
 consumer_key = environ['API_key']
 consumer_secret_key = environ['API_secret_key']
@@ -153,6 +154,10 @@ schedule.every().day.at("06:00").do(tweet_quote)
 schedule.every().saturday.at("09:00").do(weekendTweet)
 schedule.every().sunday.at("12:00").do(weekendTweet)
 schedule.every(1).minutes.do(respondToTweet)
+schedule.every().sunday.at("06:30").do(resetFilter)
+schedule.every().day.at("07:00").do(insta3.upload_wallpaper)
+schedule.every().day.at("10:00").do(insta3.upload_wallpaper)
+schedule.every().day.at("13:00").do(insta3.upload_wallpaper)
 while True:
     schedule.run_pending()
     time.sleep(1)
