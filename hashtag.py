@@ -4,7 +4,7 @@
 #DEFAULT_CAPTION_PREFIX = "Insta Daily Pic"
 #MAX_NUM_HASHTAGS = 11
 
-DEFAULT_HASHTAGS = " #wallpaper #image #picoftheday #art #beautiful #nature #pictures #photos #photography #travelphotography #photooftheday #earth #pod"
+DEFAULT_HASHTAGS = "#wallpaper #image #picoftheday #art #beautiful #nature #pictures #photos #photography #travelphotography #photooftheday #earth #pod"
 
 def get_hashtags():
     '''

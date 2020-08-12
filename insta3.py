@@ -73,17 +73,17 @@ def get_random_subreddit():
     return random_subreddit
 
 def remove_file(File):
-    time.sleep(2)
+    time.sleep(5)
     os.remove(File)
 
 def upload(fileName,title,type_of):
     logger.info("Inside Insta Upload function...")
     if type_of==1:
         logger.info("call from reddit")
-        newTitle=title+"\n\n"+hashtag.get_hashtags()
+        newTitle=title+"\n"+hashtag.get_hashtags()
     else:
         logger.info("call from weekend twitter")
-        newTitle=title+"\n\n"+hashtag.get_quote_hashtags()
+        newTitle=title+"\n"+hashtag.get_quote_hashtags()
         
     try:
         bot.login(username = insta_user_name, password = insta_pass)
