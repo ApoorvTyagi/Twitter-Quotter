@@ -74,7 +74,8 @@ def get_random_subreddit():
 
 def remove_file(File):
     time.sleep(5)
-    os.remove(File)
+    if os.path.exists(File):
+        os.remove(File)
 
 def upload(fileName,title,type_of):
     logger.info("Inside Insta Upload function...")

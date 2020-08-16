@@ -1,13 +1,13 @@
-#import nltk
-#from nltk.stem import WordNetLemmatizer
+# import nltk
+# from nltk.stem import WordNetLemmatizer
+# DEFAULT_CAPTION_PREFIX = "Insta Daily Pic"
+# MAX_NUM_HASHTAGS = 11
 
-#DEFAULT_CAPTION_PREFIX = "Insta Daily Pic"
-#MAX_NUM_HASHTAGS = 11
+DEFAULT_HASHTAGS = "#wallpaper #image #picoftheday #art #beautiful #nature #pictures #photos #photography #travelphotography #photooftheday #earth #pod #beautifuldestination #mobilephotography #instatravel #lights #instagram"
 
-DEFAULT_HASHTAGS = "#wallpaper #image #picoftheday #art #beautiful #nature #pictures #photos #photography #travelphotography #photooftheday #earth #pod"
 
 def get_hashtags():
-    '''
+    """
     lemmatizer = WordNetLemmatizer()
     hashtags = list(
         set(
@@ -25,10 +25,10 @@ def get_hashtags():
     )  # total upto 19 hashtags (any more and Instagram starts lowering SEO)
     hashtag_string += DEFAULT_HASHTAGS
     #print("Hashtags generated: {}".format(hashtag_string))
-    '''
+    """
     return DEFAULT_HASHTAGS
 
-def get_quote_hashtags():
-    hashtags = "#motivation #quote #inspiration #dailyquotes #wisewords #wordsofwisdom #quoteoftheday #hustle #quotesdaily #qod"
-    return hashtags
 
+def get_quote_hashtags():
+    hashtags = "#motivation #quotes #inspiration #dailyquotes #wisewords #wordsofwisdom #quotesoftheday #hustle #quotesdaily #qod #quotestoliveby #quotesaboutlife #quotesgram #motivationalquotes #lovequotes #quotestagram #quotesforyou #instagram"
+    return hashtags
