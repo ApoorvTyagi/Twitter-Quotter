@@ -9,6 +9,8 @@ from instabot import Bot
 from os import environ
 import hashtag
 
+
+
 insta_user_name = environ['INSTA_NAME']
 insta_pass = environ['INSTA_PASS']
 
@@ -17,6 +19,7 @@ clientSecret = environ['REDDIT_CLIENT_SECRET']
 redditName = environ['REDDIT_NAME']
 redditPass = environ['REDDIT_PASS']
 userAgent = environ['REDDIT_USER_AGENT']
+
 
 logger = logging.getLogger()
 logging.basicConfig(level=logging.INFO)
@@ -56,9 +59,8 @@ reddit = praw.Reddit(
 
 def get_random_subreddit():
     logger.info("Selceting random subreddit...")
-    #subreddits = ["Wallpapers"]
     subreddits = [
-        "Wallpaper",
+        "Wallpaper",   
         "Wallpapers",
         "BackgroundArt",
         "naturepics",
@@ -71,12 +73,19 @@ def get_random_subreddit():
     return random_subreddit
 
 def remove_file(File):
-    time.sleep(2)
-    os.remove(File)
+    time.sleep(5)
+    if os.path.exists(File):
+        os.remove(File)
 
-def upload(fileName,title):
-    newTitle=title+"\n"+hashtag.get_hashtags(title)
+def upload(fileName,title,type_of):
     logger.info("Inside Insta Upload function...")
+    if type_of==1:
+        logger.info("call from reddit")
+        newTitle=title+"\n"+hashtag.get_hashtags()
+    else:
+        logger.info("call from weekend twitter")
+        newTitle=title+"\n"+hashtag.get_quote_hashtags()
+        
     try:
         bot.login(username = insta_user_name, password = insta_pass)
         bot.upload_photo(fileName, caption = newTitle)
@@ -126,6 +135,10 @@ def upload_wallpaper():
         file_name = file_name[-1]
         if "." not in file_name:
             file_name += ".jpg"
+            
+        if ".png" in file_name:
+            logger.info("Image is PNG...")
+            continue
 
         break
 
@@ -138,4 +151,4 @@ def upload_wallpaper():
     caption = re.sub(r'\[.*\]', '', caption)
 
     
-    return upload(file_name,caption)
+    return upload(file_name,caption,1)
