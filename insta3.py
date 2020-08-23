@@ -135,6 +135,10 @@ def upload_wallpaper():
         file_name = file_name[-1]
         if "." not in file_name:
             file_name += ".jpg"
+            
+        if ".png" in file_name:
+            logger.info("Image is PNG...")
+            continue
 
         break
 
