@@ -63,7 +63,7 @@ def create_tweet():
     tweet = """{}~{}""".format(quote['quote'], quote['author'])
     return tweet
 
-
+'''
 def get_hashtag():
     days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
     hashtags = {0: "#SundayThoughts #qod", 1: "#MondayMotivation #qod", 2: "#TuesdayThoughts #qod",
@@ -73,6 +73,7 @@ def get_hashtag():
     day = now.strftime("%A")
     index = days.index(day)
     return hashtags.get(index)
+'''
 
 
 def get_last_tweet(file):
@@ -109,7 +110,7 @@ def respondToTweet(file='tweet_IDs.txt'):
             try:
                 logger.info("liking and replying to tweet")
                 api.create_favorite(mention.id)
-                api.update_status('@' + mention.user.screen_name + " Here's your #qod", mention.id,
+                api.update_status('@' + mention.user.screen_name + " Here's your Quote #qod", mention.id,
                                   media_ids=[media.media_id])
             except:
                 logger.info('Error occurred in replying to mentioned tweets')
@@ -120,8 +121,7 @@ def respondToTweet(file='tweet_IDs.txt'):
 def weekendTweet():
     logger.info('Inside weekend tweet')
     try:
-        fetched_tweet = create_tweet()
-        tweet = fetched_tweet + "\n" + get_hashtag()
+        tweet = create_tweet() + "\n #qod"
         if len(tweet) > 280:
             logger.info("Failed, max tweet length reached")
             return
@@ -142,7 +142,7 @@ def tweet_quote():
         if len(quote) < 5:
             logger.info('Did not receive any tweet')
             return weekendTweet()   # If daily tweet fails call weekend tweet
-        tweet = quote + "\n" + get_hashtag()
+        tweet = quote + "\n #qod"
         if len(tweet) > 280:
             logger.info("Failed, max tweet length reached")
             return weekendTweet()   # If daily tweet fails call weekend tweet
@@ -163,4 +163,4 @@ schedule.every().day.at("07:00").do(insta3.upload_wallpaper)
 schedule.every().day.at("15:00").do(insta3.upload_wallpaper)
 while True:
     schedule.run_pending()
-    time.sleep(1)
+    time.sleep(2)
