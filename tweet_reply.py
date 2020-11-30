@@ -35,7 +35,7 @@ def get_daily_quote():
         logger.info('Failure occurred in hitting URL')
         return ""
     res = json.loads(response.text)
-    return res['contents']['quotes'][0]['quote'] + " ~" + res['contents']['quotes'][0]['author']
+    return res['contents']['quotes'][0]['quote'] + "\n~" + res['contents']['quotes'][0]['author']
 
 
 def select_file():
@@ -60,7 +60,7 @@ def get_random_quote():
 
 def create_tweet():
     quote = get_random_quote()
-    tweet = """{}~{}""".format(quote['quote'], quote['author'])
+    tweet = """{}\n~{}""".format(quote['quote'], quote['author'])
     return tweet
 
 '''
@@ -121,7 +121,7 @@ def respondToTweet(file='tweet_IDs.txt'):
 def weekendTweet():
     logger.info('Inside weekend tweet')
     try:
-        tweet = create_tweet() + "\n #qod"
+        tweet = create_tweet() + "\n#qod"
         if len(tweet) > 280:
             logger.info("Failed, max tweet length reached")
             return
@@ -142,7 +142,7 @@ def tweet_quote():
         if len(quote) < 5:
             logger.info('Did not receive any tweet')
             return weekendTweet()   # If daily tweet fails call weekend tweet
-        tweet = quote + "\n #qod"
+        tweet = quote + "\n#qod"
         if len(tweet) > 280:
             logger.info("Failed, max tweet length reached")
             return weekendTweet()   # If daily tweet fails call weekend tweet
