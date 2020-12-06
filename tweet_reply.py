@@ -110,7 +110,7 @@ def respondToTweet(file='tweet_IDs.txt'):
             try:
                 logger.info("liking and replying to tweet")
                 api.create_favorite(mention.id)
-                api.update_status('@' + mention.user.screen_name + " Here's your Quote #qod", mention.id,
+                api.update_status('@' + mention.user.screen_name + " Here's your Quote \n#qod", mention.id,
                                   media_ids=[media.media_id])
             except:
                 logger.info('Error occurred in replying to mentioned tweets')
@@ -128,7 +128,7 @@ def weekendTweet():
         api.update_status(tweet)
         logger.info('SENT weekend tweet...✔')
         logger.info('Now going to Instagram')
-        instaQuote.write_on_img(fetched_tweet)
+        instaQuote.write_on_img(tweet)
         return "Success- Weekend Tweet Sent"
     except tweepy.TweepError as e:
         logger.info('Error occurred in weekend tweet')
