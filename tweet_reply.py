@@ -121,14 +121,15 @@ def respondToTweet(file='tweet_IDs.txt'):
 def weekendTweet():
     logger.info('Inside weekend tweet')
     try:
-        tweet = create_tweet() + "\n#qod"
+        text = create_tweet()
+        tweet = text + "\n#qod"
         if len(tweet) > 280:
             logger.info("Failed, max tweet length reached")
             return
         api.update_status(tweet)
         logger.info('SENT weekend tweet...✔')
         logger.info('Now going to Instagram')
-        instaQuote.write_on_img(tweet)
+        instaQuote.write_on_img(text)
         return "Success- Weekend Tweet Sent"
     except tweepy.TweepError as e:
         logger.info('Error occurred in weekend tweet')
