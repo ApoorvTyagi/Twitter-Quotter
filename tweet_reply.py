@@ -156,12 +156,12 @@ def tweet_quote():
 
 
 schedule.every().day.at("06:00").do(tweet_quote)
-schedule.every().saturday.at("09:00").do(weekendTweet)
-schedule.every().sunday.at("12:00").do(weekendTweet)
-schedule.every(1).minutes.do(respondToTweet)
-schedule.every().monday.at("06:30").do(insta3.resetFilter)
+schedule.every().saturday.at("12:00").do(weekendTweet)
+schedule.every().sunday.at("09:00").do(weekendTweet)
 schedule.every().day.at("07:00").do(insta3.upload_wallpaper)
 schedule.every().day.at("15:00").do(insta3.upload_wallpaper)
+schedule.every().monday.at("06:30").do(insta3.resetFilter)
+schedule.every(1).minutes.do(respondToTweet)
 while True:
     schedule.run_pending()
-    time.sleep(2)
+    time.sleep(1)
