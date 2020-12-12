@@ -84,10 +84,10 @@ def remove_file(file):
 
 
 def getAffiliateLinks():
-    affiliate_text = "\n\nLive Intentionally: 90 Day Self-Improvement Project - Build Discipline. Fix your habits & " \
-                     "routine in 90 days: " \
-                     "https://gumroad.com/a/752219251/vrvFg \n\nThe Art of Twitter - Start a Twitter based business: " \
-                     "Earn $100 per day everyday: https://gumroad.com/a/752219251/XFFpt"
+    affiliate_text = "\nLive Intentionally: 90 Day Self-Improvement Project - Build Discipline. Fix your habits & " \
+                     "routine in 90 days: https://gumroad.com/a/752219251/vrvFg)" \
+                     "\n\nThe Art of Twitter - Start a Twitter based business: " \
+                     "Earn $100 per day everyday: (https://gumroad.com/a/752219251/XFFpt)"
     return affiliate_text
 
 
@@ -95,10 +95,10 @@ def upload(fileName, title, type_of):
     logger.info("Inside Insta Upload function...")
     if type_of == 1:
         logger.info("call from reddit")
-        newTitle = title + getAffiliateLinks() + "\n" + hashtag.get_hashtags()
+        newTitle = title + "\n" + getAffiliateLinks() + "\n" + hashtag.get_hashtags()
     else:
         logger.info("call from weekend twitter")
-        newTitle = title + getAffiliateLinks() + "\n" + hashtag.get_quote_hashtags()
+        newTitle = title + "\n" + getAffiliateLinks() + "\n" + hashtag.get_quote_hashtags()
 
     try:
         bot.login(username=insta_user_name, password=insta_pass)

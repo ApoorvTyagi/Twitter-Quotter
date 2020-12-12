@@ -3,7 +3,9 @@
 # DEFAULT_CAPTION_PREFIX = "Insta Daily Pic"
 # MAX_NUM_HASHTAGS = 11
 
-DEFAULT_HASHTAGS = "#wallpaper #image #picoftheday #art #beautiful #nature #pictures #photos #photography #travelphotography #trending #earth #vacation #beautifuldestination #mobilephotography #instatravel #lights #natureview"
+DEFAULT_HASHTAGS = "#wallpaper #image #picoftheday #art #beautiful #nature #pictures #photos #photography " \
+                   "#travelphotography #trending #earth #vacation #beautifuldestination #mobilephotography " \
+                   "#instatravel #lights #natureview"
 
 
 def get_hashtags():
@@ -30,5 +32,7 @@ def get_hashtags():
 
 
 def get_quote_hashtags():
-    hashtags = "#motivation #quotes #inspiration #dailyquotes #wisewords #wordsofwisdom #quotesoftheday #hustle #quotesdaily #qod #quotestoliveby #quotesaboutlife #success #motivationalquotes #lovequotes #lifemotivation #quotesforyou #quotesforsuccess #happy"
+    hashtags = "#motivation #quotes #inspiration #dailyquotes #wisewords #wordsofwisdom #quotesoftheday #hustle " \
+               "#quotesdaily #qod #quotestoliveby #quotesaboutlife #success #motivationalquotes #mindset " \
+               "#lifemotivation #quotesforyou #quotesforsuccess #happy"
     return hashtags
