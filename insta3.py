@@ -85,9 +85,9 @@ def remove_file(file):
 
 def getAffiliateLinks():
     affiliate_text = "\nLive Intentionally: 90 Day Self-Improvement Project - Build Discipline. Fix your habits & " \
-                     "routine in 90 days: https://gumroad.com/a/752219251/vrvFg)" \
+                     "routine in 90 days:(https://gumroad.com/a/752219251/vrvFg)" \
                      "\n\nThe Art of Twitter - Start a Twitter based business: " \
-                     "Earn $100 per day everyday: (https://gumroad.com/a/752219251/XFFpt)"
+                     "Earn $100 per day everyday:(https://gumroad.com/a/752219251/XFFpt)\n"
     return affiliate_text
 
 
