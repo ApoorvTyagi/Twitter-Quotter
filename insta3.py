@@ -82,12 +82,17 @@ def remove_file(file):
     if os.path.exists(file):
         os.remove(file)
 
+def remove_cookies(path):
+    file='_sonofanton__uuid_and_cookie.json'
+    path= os.path.join(path,file)
+    os.remove(path)
+
 
 def getAffiliateLinks():
     affiliate_text = "\nLive Intentionally: 90 Day Self-Improvement Project - Build Discipline. Fix your habits & " \
                      "routine in 90 days:(https://gumroad.com/a/752219251/vrvFg)" \
                      "\n\nThe Art of Twitter - Start a Twitter based business: " \
-                     "Earn $100 per day everyday:(https://gumroad.com/a/752219251/XFFpt)\n"
+                     "Tips to get from 0 to 10,000 followers and beyond...Earn $100 per day everyday:(https://gumroad.com/a/752219251/XFFpt)\n"
     return affiliate_text
 
 
@@ -109,6 +114,7 @@ def upload(fileName, title, type_of):
         return
 
     remove_file(fileName)
+    remove_cookies('config')
 
 
 def upload_wallpaper():
