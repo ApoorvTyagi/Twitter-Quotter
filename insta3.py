@@ -78,14 +78,19 @@ def get_random_subreddit():
 
 
 def remove_file(file):
+    logger.info("Inside Remove file func()....")
     time.sleep(5)
     if os.path.exists(file):
+        logger.info("Removing Image...")
         os.remove(file)
 
 def remove_cookies(path):
+    logger.info("Inside Remove Cookkies....")
     file='_sonofanton__uuid_and_cookie.json'
     path= os.path.join(path,file)
-    os.remove(path)
+    if os.path.exists(path):
+        logger.info("Removing Cookies from Insta...")
+        os.remove(path)
 
 
 def getAffiliateLinks():
@@ -114,7 +119,7 @@ def upload(fileName, title, type_of):
         return
 
     remove_file(fileName)
-    remove_cookies('config')
+    remove_cookies('app/config')
 
 
 def upload_wallpaper():
