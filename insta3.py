@@ -85,9 +85,9 @@ def remove_file(file):
         os.remove(file)
 
 def remove_cookies(path):
-    logger.info("Inside Remove Cookkies....")
     file='_sonofanton__uuid_and_cookie.json'
     path= os.path.join(path,file)
+    logger.info("Inside Remove Cookies func(), path = " + str(path))
     if os.path.exists(path):
         logger.info("Removing Cookies from Insta...")
         os.remove(path)
