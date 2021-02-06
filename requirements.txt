@@ -12,7 +12,6 @@ nltk~=3.4
 pandas>=0.24.2
 praw>=7.1.0
 DateTime>=4.3
-instabot>=0.117.0
 mmh3==2.5.1
 bitarray==1.2.1
 textblob==0.15.3
