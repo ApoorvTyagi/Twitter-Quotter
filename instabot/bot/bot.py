@@ -7,7 +7,7 @@ import random
 import signal
 import time
 
-from instabot import utils
+from instabot_custom import utils
 
 # from instabot.api.api import API
 from ..api import API

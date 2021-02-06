@@ -9,7 +9,7 @@ import praw
 import re
 import requests
 from bitarray import bitarray
-from instabot_custom import Bot
+from instabot import Bot
 
 import hashtag
 
