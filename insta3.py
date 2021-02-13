@@ -81,7 +81,7 @@ def remove_file(file):
     logger.info("Inside Remove file func()....")
     time.sleep(5)
     if os.path.exists(file):
-        logger.info("Removing Image...")
+        logger.info("Removed Image...")
         os.remove(file)
 
 def remove_cookies(path):
@@ -119,7 +119,7 @@ def upload(fileName, title, type_of):
         return
 
     remove_file(fileName)
-    remove_cookies('app/config')
+    #remove_cookies('app/config')
 
 
 def upload_wallpaper():
