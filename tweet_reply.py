@@ -117,19 +117,30 @@ def respondToTweet(file='tweet_IDs.txt'):
                 print("Already sent to {}".format(mention.id))
     put_last_tweet(file, new_id)
 
+def get_quote():
+    url = "https://api.quotable.io/random"
+
+    try:
+        response = requests.get(url)
+    except:
+        logger.info("Error while calling API...")
+
+    res = json.loads(response.text)
+    print(res)
+    return res['content'] + "-" + res['author']
 
 def weekendTweet():
     logger.info('Inside weekend tweet')
     try:
-        text = create_tweet()
+        text = get_quote()
         tweet = text + "\n#qod"
         if len(tweet) > 280:
             logger.info("Failed, max tweet length reached")
             return
         api.update_status(tweet)
         logger.info('SENT weekend tweet...✔')
-        logger.info('Now going to Instagram')
-        instaQuote.write_on_img(text)
+        #logger.info('Now going to Instagram')
+        #instaQuote.write_on_img(text)
         return "Success- Weekend Tweet Sent"
     except tweepy.TweepError as e:
         logger.info('Error occurred in weekend tweet')
@@ -158,9 +169,6 @@ def tweet_quote():
 schedule.every().day.at("06:00").do(tweet_quote)
 schedule.every().saturday.at("12:00").do(weekendTweet)
 schedule.every().sunday.at("09:00").do(weekendTweet)
-schedule.every().friday.at("07:00").do(insta3.upload_wallpaper)
-schedule.every().day.at("15:00").do(insta3.upload_wallpaper)
-schedule.every().monday.at("06:30").do(insta3.resetFilter)
 schedule.every(1).minutes.do(respondToTweet)
 while True:
     schedule.run_pending()
