@@ -102,7 +102,7 @@ def respondToTweet(file='tweet_IDs.txt'):
         new_id = mention.id
         if '#qod' in mention.full_text.lower():
             print("Responding back with QOD to -{}".format(mention.id))
-            tweet = create_tweet()
+            tweet = get_quote()
             Wallpaper.get_wallpaper(tweet)
 
             # Upload image
