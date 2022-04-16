@@ -18,3 +18,4 @@ textblob==0.15.3
 huepy>=1.2.1
 tqdm>=4.56.0
 requests-toolbelt>=0.9.1
+python-dateutil>=1.5
