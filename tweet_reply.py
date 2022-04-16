@@ -139,8 +139,8 @@ def weekendTweet():
             return
         api.update_status(tweet)
         logger.info('SENT weekend tweet...✔')
-        #logger.info('Now going to Instagram')
-        #instaQuote.write_on_img(text)
+        logger.info('Now going to Instagram')
+        instaQuote.write_on_img(text)
         return "Success- Weekend Tweet Sent"
     except tweepy.TweepError as e:
         logger.info('Error occurred in weekend tweet')
@@ -165,11 +165,21 @@ def tweet_quote():
         logger.info('Error occurred in daily tweet')
         return e.response.text
 
+def schedule_next_insta():
+   time_str = '{:02d}:{:02d}'.format(random.randint(6, 10), random.randint(0, 59))
+   schedule.clear()
+   print("Scheduled insta today for {}".format(time_str))
+   schedule.every().day.at(time_str).do(insta3.upload_wallpaper)
+
+schedule_next_run()
+
 
 schedule.every().day.at("06:00").do(tweet_quote)
 schedule.every().saturday.at("12:00").do(weekendTweet)
 schedule.every().sunday.at("09:00").do(weekendTweet)
+schedule.every().monday.at("06:30").do(insta3.resetFilter)
 schedule.every(1).minutes.do(respondToTweet)
+schedule_next_insta()
 while True:
     schedule.run_pending()
     time.sleep(1)
