@@ -1,7 +1,7 @@
 import os
 from pathlib import Path
 from image_utils import ImageText
-import insta3
+import instagram
 
 
 MAX_TITLE_LEN = 300
@@ -12,8 +12,6 @@ def get_title_and_self_text(title):
     Returns text if they fall within the character limits
     :rtype: tuple(str)
     """
-    #title= 'You should never view your challenges as a disadvantage. Instead, its important for you to understand that your experience facing and overcoming adversity is actually one of your biggest advantages. ~Michelle Obama'
-    #title = 'No matter how good you are, someone is always going to be against you. But never let them be the limit of your success.~Terry Mark'
     if title is None or len(title) >= MAX_TITLE_LEN:
         return None
     
@@ -28,7 +26,7 @@ def get_bg_img():
 def get_format():
     #Format of the text, courtesy Avishek Rakshit (helluva designer)
     return {'subreddit_font': 'Helvetica95Black.ttf',
-            'title_font': 'Helvetica65Medium_22443.ttf',
+            'title_font': 'Helvetica65Medium.ttf',
             'subreddit_color': (159, 4, 4),
             'title_color': (33, 32, 32)
             }
@@ -68,5 +66,5 @@ def write_on_img(text):
 
         title_img.save(title_op)
         path_of_img=os.getcwd()+"/images/tweet_img.jpg"
-        insta3.upload(path_of_img,"Quote Of The Day",2)
+        instagram.upload(path_of_img,"Quote Of The Day",2)
 

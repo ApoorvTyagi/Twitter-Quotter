@@ -4,18 +4,17 @@ import datetime
 import random
 import requests
 import logging
-import Wallpaper
 import schedule
 import time
 import os
 from os import environ
-import insta3
-import instaQuote
+import Wallpaper
+import instagram, instaQuote
 
-consumer_key = environ['API_key']
-consumer_secret_key = environ['API_secret_key']
-access_token = environ['access_token']
-access_token_secret = environ['access_token_secret']
+consumer_key = 'WV46YJ4JZwx2mcT0rweqjEubd'
+consumer_secret_key = 'rrmWy0nDwpZ3AUwTpkJUvL4ulXWhE0Vqzi7YjiL6ck24EgwhKl'
+access_token = '1264172481222492161-bLEDkaqc8CIqMQT9WHni9SIkqAtXDl'
+access_token_secret = 'xoeyUdfZJgOZ1llf1O72gYaZqLa5axQfIgl7xWKpVtBc3'
 
 auth = tweepy.OAuthHandler(consumer_key, consumer_secret_key)
 auth.set_access_token(access_token, access_token_secret)
@@ -37,6 +36,17 @@ def get_daily_quote():
     res = json.loads(response.text)
     return res['contents']['quotes'][0]['quote'] + "\n~" + res['contents']['quotes'][0]['author']
 
+def get_quote_via_api():
+    url = "https://api.quotable.io/random"
+
+    try:
+        response = requests.get(url)
+    except:
+        logger.info("Error while calling API...")
+
+    res = json.loads(response.text)
+    print(res)
+    return res['content'] + "-" + res['author']
 
 def select_file():
     path = r'quotes'
@@ -45,35 +55,23 @@ def select_file():
     return os.path.join(path, files[index])
 
 
-def get_quotes():
+def get_quote_via_file():
     fileName = select_file()
     with open(fileName, encoding="utf8") as f:
         quotes_json = json.load(f)
     return quotes_json
 
 
-def get_random_quote():
-    quotes = get_quotes()
+def get_random_quote_via_file():
+    quotes = get_quote_via_file()
     random_quote = random.choice(quotes)
     return random_quote
 
 
 def create_tweet():
-    quote = get_random_quote()
+    quote = get_random_quote_via_file()
     tweet = """{}\n~{}""".format(quote['quote'], quote['author'])
     return tweet
-
-'''
-def get_hashtag():
-    days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
-    hashtags = {0: "#SundayThoughts #qod", 1: "#MondayMotivation #qod", 2: "#TuesdayThoughts #qod",
-                3: "#WednesdayWisdom #qod",
-                4: "#ThursdayThoughts #qod", 5: "#FeelGoodFriday #qod", 6: "#SaturdayVibes #qod"}
-    now = datetime.datetime.now()
-    day = now.strftime("%A")
-    index = days.index(day)
-    return hashtags.get(index)
-'''
 
 
 def get_last_tweet(file):
@@ -102,8 +100,8 @@ def respondToTweet(file='tweet_IDs.txt'):
         new_id = mention.id
         if '#qod' in mention.full_text.lower():
             print("Responding back with QOD to -{}".format(mention.id))
-            tweet = get_quote()
-            Wallpaper.get_wallpaper(tweet)
+            tweet = get_quote_via_api()
+            Wallpaper.create_wallpaper(tweet)
 
             # Upload image
             media = api.media_upload("pil_text.png")
@@ -116,38 +114,25 @@ def respondToTweet(file='tweet_IDs.txt'):
                 logger.info('Error occurred in replying to mentioned tweets')
                 print("Already sent to {}".format(mention.id))
     put_last_tweet(file, new_id)
+    
 
-def get_quote():
-    url = "https://api.quotable.io/random"
-
-    try:
-        response = requests.get(url)
-    except:
-        logger.info("Error while calling API...")
-
-    res = json.loads(response.text)
-    print(res)
-    return res['content'] + "-" + res['author']
-
-def weekendTweet():
+def weekend_tweet():
     logger.info('Inside weekend tweet')
     try:
-        text = get_quote()
+        text = get_quote_via_api()
         tweet = text + "\n#qod"
         if len(tweet) > 280:
             logger.info("Failed, max tweet length reached")
             return
         api.update_status(tweet)
         logger.info('SENT weekend tweet...✔')
-        logger.info('Now going to Instagram')
-        instaQuote.write_on_img(text)
         return "Success- Weekend Tweet Sent"
     except tweepy.TweepError as e:
         logger.info('Error occurred in weekend tweet')
         return e.response.text
 
 
-def tweet_quote():
+def daily_tweet():
     logger.info('Inside daily tweet function')
     try:
         quote = get_daily_quote()
@@ -165,21 +150,21 @@ def tweet_quote():
         logger.info('Error occurred in daily tweet')
         return e.response.text
 
-def schedule_next_insta():
-   time_str = '{:02d}:{:02d}'.format(random.randint(6, 10), random.randint(0, 59))
+'''
+def schedule_next_instagram():
+   time_str = '{:02d}:{:02d}'.format(random.randint(10, 23), random.randint(0, 59))
    schedule.clear()
-   print("Scheduled insta today for {}".format(time_str))
+   print("Scheduled instagram today for {}".format(time_str))
    schedule.every().day.at(time_str).do(insta3.upload_wallpaper)
 
 schedule_next_run()
+'''
 
-
-schedule.every().day.at("06:00").do(tweet_quote)
-schedule.every().saturday.at("12:00").do(weekendTweet)
-schedule.every().sunday.at("09:00").do(weekendTweet)
-schedule.every().monday.at("06:30").do(insta3.resetFilter)
+schedule.every().day.at("06:00").do(daily_tweet)
+schedule.every().saturday.at("12:00").do(weekend_tweet)
+schedule.every().sunday.at("09:00").do(weekend_tweet)
 schedule.every(1).minutes.do(respondToTweet)
-schedule_next_insta()
+#schedule_next_instagram()
 while True:
     schedule.run_pending()
     time.sleep(1)

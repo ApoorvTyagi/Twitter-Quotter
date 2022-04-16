@@ -13,12 +13,11 @@ def draw_multiple_line_text(image, text, font, text_color, text_start_height):
         y_text += line_height
 
 
-def get_wallpaper(quote):
+def create_wallpaper(quote):
     # image_width
     image = Image.new('RGB', (800, 500), color=(0, 0, 0))
     font = ImageFont.truetype("Arial.ttf", 40)
-    text1 = quote
     text_color = (200, 200, 200)
     text_start_height = 100
-    draw_multiple_line_text(image, text1, font, text_color, text_start_height)
+    draw_multiple_line_text(image, quote, font, text_color, text_start_height)
     image.save('pil_text.png')

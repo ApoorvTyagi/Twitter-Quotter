@@ -3,15 +3,13 @@ import os
 import random
 import time
 from os import environ
-
-import mmh3
+import shutil
 import praw
 import re
 import requests
-from bitarray import bitarray
 from instabot import Bot
-
 import hashtag
+
 
 insta_user_name = environ['INSTA_NAME']
 insta_pass = environ['INSTA_PASS']
@@ -25,30 +23,6 @@ userAgent = environ['REDDIT_USER_AGENT']
 logger = logging.getLogger()
 logging.basicConfig(level=logging.INFO)
 logger.setLevel(logging.INFO)
-
-filter = bitarray(256)
-filter.setall(0)
-no_of_hash = 3
-
-
-def resetFilter():
-    logger.info("Resetting Filter...")
-    filter.setall(0)
-
-
-def add(item):
-    for i in range(no_of_hash):
-        index = mmh3.hash(item, i) % 256
-        filter[index] = 1
-
-
-def find(item):
-    for i in range(no_of_hash):
-        index = mmh3.hash(item, i) % 256
-        if filter[index] == 0:
-            return False
-    return True
-
 
 bot = Bot()
 
@@ -84,13 +58,10 @@ def remove_file(file):
         logger.info("Removed Image...")
         os.remove(file)
 
-def remove_cookies(path):
-    file='_sonofanton__uuid_and_cookie.json'
-    path= os.path.join(path,file)
-    logger.info("Inside Remove Cookies func(), path = " + str(path))
+
+def remove_folder(path):
     if os.path.exists(path):
-        logger.info("Removing Cookies from Insta...")
-        os.remove(path)
+        shutil.rmtree(path)
 
 
 def getAffiliateLinks():
@@ -119,7 +90,7 @@ def upload(fileName, title, type_of):
         return
 
     remove_file(fileName)
-    #remove_cookies('app/config')
+    remove_folder('config')
 
 
 def upload_wallpaper():
@@ -131,20 +102,14 @@ def upload_wallpaper():
 
     for post in topPost:
         url = post.url
-        # logger.info('url is :' + str(url))
-        # logger.info("Post_id is " + str(post.id))
         logger.info("Caption is " + str(post.title))
 
         if tryCount > 3:
             return "Failure, Try-Count Limit Exceeded"
 
-        # print("Try Count : {}".format(tryCount))
         tryCount += 1
         if reddit.submission(post.id).domain != 'i.redd.it':
             logger.info("Post does not have any media")
-            continue
-        if find(post.id):
-            logger.info("Post already added in last 7 days...")
             continue
         else:
             logger.info("Found New Image Post")

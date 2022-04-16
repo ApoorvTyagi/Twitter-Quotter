@@ -2,4 +2,3 @@ credentials.py
 .idea
 __pycache__
 config
-venv
