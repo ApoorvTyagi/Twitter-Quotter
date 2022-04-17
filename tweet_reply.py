@@ -11,10 +11,10 @@ from os import environ
 import Wallpaper
 import instagram, instaQuote
 
-consumer_key = 'WV46YJ4JZwx2mcT0rweqjEubd'
-consumer_secret_key = 'rrmWy0nDwpZ3AUwTpkJUvL4ulXWhE0Vqzi7YjiL6ck24EgwhKl'
-access_token = '1264172481222492161-bLEDkaqc8CIqMQT9WHni9SIkqAtXDl'
-access_token_secret = 'xoeyUdfZJgOZ1llf1O72gYaZqLa5axQfIgl7xWKpVtBc3'
+consumer_key = environ['API_key']
+consumer_secret_key = environ['API_secret_key']
+access_token = environ['access_token']
+access_token_secret = environ['access_token_secret']
 
 auth = tweepy.OAuthHandler(consumer_key, consumer_secret_key)
 auth.set_access_token(access_token, access_token_secret)
