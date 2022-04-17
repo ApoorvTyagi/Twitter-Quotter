@@ -8,8 +8,7 @@ import schedule
 import time
 import os
 from os import environ
-import Wallpaper
-import instagram, instaQuote
+import Wallpaper, instagram, instaQuote
 
 consumer_key = environ['API_key']
 consumer_secret_key = environ['API_secret_key']
@@ -126,7 +125,7 @@ def weekend_tweet():
             return
         api.update_status(tweet)
         logger.info('SENT weekend tweet...✔')
-        return "Success- Weekend Tweet Sent"
+        return "Success"
     except tweepy.TweepError as e:
         logger.info('Error occurred in weekend tweet')
         return e.response.text
