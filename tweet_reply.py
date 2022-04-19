@@ -156,8 +156,6 @@ def schedule_next_instagram():
    print("Scheduled instagram today for {}".format(time_str))
    schedule.every().day.at(time_str).do(instagram.upload_wallpaper)
 
-schedule_next_run()
-
 
 schedule.every().day.at("06:00").do(daily_tweet)
 schedule.every().saturday.at("12:00").do(weekend_tweet)
