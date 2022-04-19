@@ -89,7 +89,7 @@ def put_last_tweet(file, Id):
 
 def respondToTweet(file='tweet_IDs.txt'):
     last_id = get_last_tweet(file)
-    mentions = api.mentions_timeline(last_id)
+    mentions = api.mentions_timeline(last_id, tweet_mode='extended')
     if len(mentions) == 0:
         return
     new_id = 0
