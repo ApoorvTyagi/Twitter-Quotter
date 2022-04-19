@@ -89,7 +89,7 @@ def put_last_tweet(file, Id):
 
 def respondToTweet(file='tweet_IDs.txt'):
     last_id = get_last_tweet(file)
-    mentions = api.mentions_timeline(last_id, tweet_mode='extended')
+    mentions = api.mentions_timeline(last_id)
     if len(mentions) == 0:
         return
     new_id = 0
@@ -149,21 +149,21 @@ def daily_tweet():
         logger.info('Error occurred in daily tweet')
         return e.response.text
 
-'''
+
 def schedule_next_instagram():
    time_str = '{:02d}:{:02d}'.format(random.randint(10, 23), random.randint(0, 59))
    schedule.clear()
    print("Scheduled instagram today for {}".format(time_str))
-   schedule.every().day.at(time_str).do(insta3.upload_wallpaper)
+   schedule.every().day.at(time_str).do(instagram.upload_wallpaper)
 
 schedule_next_run()
-'''
+
 
 schedule.every().day.at("06:00").do(daily_tweet)
 schedule.every().saturday.at("12:00").do(weekend_tweet)
 schedule.every().sunday.at("09:00").do(weekend_tweet)
 schedule.every(1).minutes.do(respondToTweet)
-#schedule_next_instagram()
+schedule_next_instagram()
 while True:
     schedule.run_pending()
     time.sleep(1)
