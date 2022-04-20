@@ -111,9 +111,6 @@ def upload_wallpaper():
         if reddit.submission(post.id).domain != 'i.redd.it':
             logger.info("Post does not have any media")
             continue
-        else:
-            logger.info("Found New Image Post")
-            add(post.id)
 
         file_name = url.split("/")
 

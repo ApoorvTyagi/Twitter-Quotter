@@ -161,7 +161,7 @@ schedule.every().day.at("06:00").do(daily_tweet)
 schedule.every().saturday.at("12:00").do(weekend_tweet)
 schedule.every().sunday.at("09:00").do(weekend_tweet)
 schedule.every(1).minutes.do(respondToTweet)
-schedule.every().day.at("13:00").do(instagram.upload_wallpaper)
+schedule.every().day.at("14:00").do(instagram.upload_wallpaper)
 while True:
     schedule.run_pending()
     time.sleep(1)
