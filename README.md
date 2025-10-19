@@ -1,9 +1,9 @@
-# Twitter-Quotter
+# [Twitter-Quotter](x.com/queue_overflow)
 Version 3.0
 
 # System Design X profile
 
-An AI-powered X profile that automatically posts comprehensive threads about system design concepts.
+An [AI-powered X profile](x.com/queue_overflow) that automatically posts comprehensive threads about system design concepts.
 
 Perfect for engineers preparing for **system design interviews**! 🚀
 
@@ -362,7 +362,6 @@ MIT License - feel free to use and modify!
 ## 🌟 Star This Repo!
 
 If this profile helps you with system design interview prep, give it a ⭐!
-
 ---
 
 **Happy Learning! 🚀**
