@@ -1,4 +1,9 @@
-credentials.py
 .idea
-__pycache__
-config
+__pycache__/
+.env
+*.env
+posted_topics.json
+archive
+.env
+*.pyc
+.DS_Store
