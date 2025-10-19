@@ -1,59 +1,32 @@
-name: DDIA Bot - Random Time Daily
+name: Queue Overflow
 
 on:
   schedule:
-    # Trigger at 7:00 PM IST (1:30 PM UTC) - will add random delay
+    # Trigger at 7:00 PM IST (13:30 UTC)
     - cron: '30 13 * * *'
   workflow_dispatch:  # Manual trigger for testing
 
 jobs:
   post-tweet:
     runs-on: ubuntu-latest
-    
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-        
-      - name: Calculate random time between 7-11 PM IST
-        id: random_time
-        run: |
-          # Generate random delay between 0-14400 seconds (0-4 hours)
-          RANDOM_DELAY=$((RANDOM % 14400))
-          
-          # Calculate what time it will be
-          CURRENT_HOUR=19  # 7 PM in 24-hour format
-          DELAY_HOURS=$((RANDOM_DELAY / 3600))
-          DELAY_MINUTES=$(((RANDOM_DELAY % 3600) / 60))
-          
-          POST_HOUR=$((CURRENT_HOUR + DELAY_HOURS))
-          POST_MINUTE=$DELAY_MINUTES
-          
-          echo "delay=$RANDOM_DELAY" >> $GITHUB_OUTPUT
-          echo "post_time=${POST_HOUR}:$(printf '%02d' ${POST_MINUTE}) PM IST" >> $GITHUB_OUTPUT
-          
-          echo "🎲 Random delay: $RANDOM_DELAY seconds"
-          echo "⏰ Will post at: ${POST_HOUR}:$(printf '%02d' ${POST_MINUTE}) PM IST"
-          
-      - name: Wait for random time
-        run: |
-          DELAY=${{ steps.random_time.outputs.delay }}
-          echo "⏳ Waiting $DELAY seconds ($(($DELAY / 60)) minutes)..."
-          echo "📅 Posting at: ${{ steps.random_time.outputs.post_time }}"
-          sleep $DELAY
-          
+
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
           python-version: '3.11'
           cache: 'pip'
-          
+
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
           pip install tweepy openai python-dotenv schedule
-          
+
       - name: Load posted topics history
         run: |
           if [ ! -f posted_topics.json ]; then
@@ -62,7 +35,7 @@ jobs:
           else
             echo "📚 Loaded existing posted_topics.json"
           fi
-          
+
       - name: Run DDIA Bot
         env:
           TWITTER_API_KEY: ${{ secrets.TWITTER_API_KEY }}
@@ -84,15 +57,15 @@ jobs:
               sys.exit(1)
           print('✅ Bot completed successfully')
           "
-          
+
       - name: Commit updated posted_topics.json
         run: |
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
           git config --local user.name "DDIA Bot"
-          
+
           if [ -f posted_topics.json ]; then
             git add posted_topics.json
-            
+
             # Only commit if there are changes
             if git diff --staged --quiet; then
               echo "No changes to commit"
@@ -102,23 +75,23 @@ jobs:
               echo "✅ Committed changes"
             fi
           fi
-          
+
       - name: Push changes
         uses: ad-m/github-push-action@master
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           branch: ${{ github.ref }}
-          
+
       - name: Summary
         if: always()
         run: |
           echo "## 📊 Workflow Summary" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "- **Scheduled Time:** 7:00 PM IST" >> $GITHUB_STEP_SUMMARY
-          echo "- **Actual Post Time:** ${{ steps.random_time.outputs.post_time }}" >> $GITHUB_STEP_SUMMARY
+          echo "- **Actual Post Time:** 7:00 PM IST" >> $GITHUB_STEP_SUMMARY
           echo "- **Status:** ${{ job.status }}" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
-          
+
           if [ -f posted_topics.json ]; then
             TOPIC_COUNT=$(python3 -c "import json; print(len(json.load(open('posted_topics.json'))))" 2>/dev/null || echo "N/A")
             echo "- **Topics Posted:** $TOPIC_COUNT" >> $GITHUB_STEP_SUMMARY
