@@ -294,31 +294,61 @@ Score < 6 means regenerate."""
             return {"score": 8, "is_good": True, "feedback": "Validation skipped"}
     
     def post_thread(self, tweets):
-        """Post a Twitter thread"""
+        """Post a Twitter thread with rate limit handling"""
         try:
             previous_tweet_id = None
             posted_ids = []
+            
+            # Determine delay based on environment
+            delay_seconds = 60 if os.getenv("GITHUB_ACTIONS") else 5
             
             for i, tweet_text in enumerate(tweets):
                 # Add thread numbering to first tweet
                 if i == 0:
                     tweet_text = f"🧵 Thread: {tweet_text}"
                 
-                if previous_tweet_id:
-                    response = self.twitter_client.create_tweet(
-                        text=tweet_text,
-                        in_reply_to_tweet_id=previous_tweet_id
-                    )
-                else:
-                    response = self.twitter_client.create_tweet(text=tweet_text)
+                try:
+                    if previous_tweet_id:
+                        response = self.twitter_client.create_tweet(
+                            text=tweet_text,
+                            in_reply_to_tweet_id=previous_tweet_id
+                        )
+                    else:
+                        response = self.twitter_client.create_tweet(text=tweet_text)
+                    
+                    previous_tweet_id = response.data['id']
+                    posted_ids.append(previous_tweet_id)
+                    print(f"✅ Thread tweet {i+1}/{len(tweets)} posted!")
+                    
+                    # Delay between tweets to avoid rate limits
+                    if i < len(tweets) - 1:
+                        env_name = "GitHub Actions" if os.getenv("GITHUB_ACTIONS") else "Local"
+                        print(f"⏳ Waiting {delay_seconds} seconds before next tweet ({env_name} mode)...")
+                        time.sleep(delay_seconds)
                 
-                previous_tweet_id = response.data['id']
-                posted_ids.append(previous_tweet_id)
-                print(f"✅ Thread tweet {i+1}/{len(tweets)} posted!")
-                
-                # Small delay between tweets
-                if i < len(tweets) - 1:
-                    time.sleep(3)
+                except tweepy.TooManyRequests as e:
+                    print(f"⚠️ Rate limit hit on tweet {i+1}. Waiting 90 seconds...")
+                    time.sleep(90)
+                    # Retry once
+                    try:
+                        if previous_tweet_id:
+                            response = self.twitter_client.create_tweet(
+                                text=tweet_text,
+                                in_reply_to_tweet_id=previous_tweet_id
+                            )
+                        else:
+                            response = self.twitter_client.create_tweet(text=tweet_text)
+                        
+                        previous_tweet_id = response.data['id']
+                        posted_ids.append(previous_tweet_id)
+                        print(f"✅ Thread tweet {i+1}/{len(tweets)} posted (after retry)!")
+                        
+                        if i < len(tweets) - 1:
+                            print(f"⏳ Waiting {delay_seconds} seconds before next tweet...")
+                            time.sleep(delay_seconds)
+                    except Exception as retry_error:
+                        print(f"❌ Failed to post tweet {i+1} even after retry: {retry_error}")
+                        raise
             
             return posted_ids
             
