@@ -9,8 +9,8 @@ Perfect for engineers preparing for **system design interviews**! 🚀
 
 ## ✨ Features
 
-- 🧵 **Smart Threading**: Creates 3-9 tweet threads based on topic complexity
-- 🎲 **Random Scheduling**: Posts once daily between 7-11 PM IST at random times
+- 🧵 **Smart Threading**: Creates 3-15 tweet threads based on topic complexity
+- 🎲 **Random Scheduling**: Posts once daily between 7-8 PM IST
 - 🧠 **AI-Powered**: Uses GPT-4o-mini to generate fresh, engaging content
 - 📊 **Quality Validation**: AI validates thread quality before posting
 - 🔄 **Auto-Cycling**: Tracks posted topics and brings fresh perspectives on repeats
@@ -37,19 +37,6 @@ Threads cover **70+ system design topics** including:
 - Stream processing (Kafka, Flink)
 - Lambda vs Kappa architecture
 - Consistency and consensus
-
-## 🎯 Thread Structure
-
-Each thread follows this interview-optimized format:
-
-1. **Hook** (Tweet 1): Real-world problem or scenario
-2. **Core Concept** (Tweets 2-3): Deep explanation of how it works
-3. **Technical Details** (Tweets 4-6): Implementation, algorithms, trade-offs
-4. **Interview Gold** (Tweets 7+): 
-   - Detailed trade-off analysis
-   - When to use vs not use
-   - Real company examples (Netflix, Uber, Amazon)
-   - Common mistakes and pitfalls
 
 ## 🚀 Setup Guide
 
@@ -114,11 +101,11 @@ Add these 5 secrets:
 
 ```bash
 git add .
-git commit -m "🚀 Deploy DDIA"
+git commit -m "Deploy DDIA"
 git push origin main
 ```
 
-That's it! The code will automatically post between 7-11 PM IST daily. 🎉
+That's it! The code will automatically post between 7PM IST daily. 🎉
 
 ## 🧪 Testing
 
@@ -142,10 +129,8 @@ python DDIA.py
 
 ### Test on GitHub Actions
 
-1. Go to **Actions** tab in your repo
-2. Click **"DDIA - Random Time Daily"**
-3. Click **"Run workflow"** → **"Run workflow"**
-4. Watch it execute in real-time!
+- Go to **Actions** tab in your repo
+- Click **"Run workflow"** → **"Run workflow"**
 
 ## 📊 Monitoring
 
@@ -153,7 +138,6 @@ python DDIA.py
 
 - **Actions tab**: See all executions, success/failures
 - **Click any run**: View detailed logs including:
-  - Random post time calculated
   - Generated tweet content
   - Posting progress
   - Success confirmation
@@ -164,7 +148,6 @@ Each run shows:
 ```
 📊 Workflow Summary
 - Scheduled Time: 7:00 PM IST
-- Actual Post Time: 9:23 PM IST
 - Status: Success
 - Topics Posted: 15/70
 ```
@@ -173,56 +156,6 @@ Each run shows:
 
 Simply visit your X profile to see the posted threads!
 
-## ⚙️ Configuration
-
-### Change Posting Time Window
-
-Edit `.github/workflows/ddia-bot-random.yml`:
-
-```yaml
-# Current: 7-11 PM IST (4-hour window)
-RANDOM_DELAY=$((RANDOM % 14400))
-
-# 8-10 PM IST (2-hour window)
-- cron: '30 14 * * *'  # Start at 8 PM IST
-RANDOM_DELAY=$((RANDOM % 7200))
-```
-
-### Change Thread Complexity
-
-Edit `DDIA.py` - modify `thread_lengths` in `generate_comprehensive_thread()`:
-
-```python
-thread_lengths = {
-    "simple": "3-4",    # Change to "2-3" for shorter
-    "medium": "5-6",    # Change to "4-5" for shorter
-    "complex": "7-9"    # Change to "6-8" for shorter
-}
-```
-
-### Add More Topics
-
-Edit `DDIA_TOPICS` dictionary in `DDIA.py`:
-
-```python
-"medium": [
-    "Your new topic here",
-    "Another topic",
-    # ... existing topics
-]
-```
-
-### Adjust Delay Between Tweets
-
-In `post_thread()` method:
-
-```python
-# Current: 60 seconds in GitHub Actions
-delay_seconds = 60 if os.getenv("GITHUB_ACTIONS") else 5
-
-# Change to 30 seconds:
-delay_seconds = 30 if os.getenv("GITHUB_ACTIONS") else 5
-```
 
 ## 📁 Project Structure
 
@@ -245,15 +178,11 @@ Twitter-Quotter/
 ```
 7:00 PM IST → GitHub Actions triggers workflow
                 ↓
-              Calculate random delay (0-4 hours)
-                ↓
-              Wait for calculated time
-                ↓
-7:00-11:00 PM → Select random unused topic
+              Select random unused topic
                 ↓
               Generate thread with GPT-4o-mini
                 ↓
-              Validate thread quality (must score 7+/10)
+              Validate thread quality (must score 6+/10)
                 ↓
               Post thread to X (60s delay between tweets)
                 ↓
@@ -284,7 +213,7 @@ Each thread is validated before posting:
 - ✅ Interview-readiness score
 - ✅ Proper hashtag placement
 
-Only threads scoring 7+/10 are posted!
+Only threads scoring 6+/10 are posted!
 
 ## 💰 Cost Breakdown
 
@@ -324,7 +253,7 @@ Only threads scoring 7+/10 are posted!
 - Increase delay in `post_thread()` method
 - Default is 60 seconds, try 90 or 120
 
-### `Posted_topics.json` not updating
+### File `Posted_topics.json` not updating
 
 **Fix:**
 - Enable "Read and write permissions" in Settings → Actions

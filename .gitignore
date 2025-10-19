@@ -7,3 +7,9 @@ archive
 .env
 *.pyc
 .DS_Store
+
+
+token.json
+credentials.json
+*.mp4  # Temp videos
+processed.json

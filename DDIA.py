@@ -128,16 +128,70 @@ class AISystemDesignBot:
                 return complexity
         return "medium"  # default
     
+    def split_long_tweet(self, tweet_text, max_length=280):
+        """Split a long tweet into multiple tweets at natural break points"""
+        if len(tweet_text) <= max_length:
+            return [tweet_text]
+        
+        # Try to split at sentence boundaries first
+        sentences = tweet_text.replace('. ', '.|').replace('! ', '!|').replace('? ', '?|').split('|')
+        
+        result = []
+        current_tweet = ""
+        
+        for sentence in sentences:
+            sentence = sentence.strip()
+            if not sentence:
+                continue
+                
+            # If adding this sentence would exceed limit
+            if len(current_tweet) + len(sentence) + 1 > max_length:
+                if current_tweet:
+                    result.append(current_tweet.strip())
+                    current_tweet = sentence
+                else:
+                    # Single sentence too long, split by words
+                    words = sentence.split()
+                    for word in words:
+                        if len(current_tweet) + len(word) + 1 > max_length:
+                            if current_tweet:
+                                result.append(current_tweet.strip() + "...")
+                                current_tweet = "..." + word
+                            else:
+                                # Single word too long (rare), just truncate
+                                result.append(word[:max_length-3] + "...")
+                        else:
+                            current_tweet += " " + word if current_tweet else word
+            else:
+                current_tweet += " " + sentence if current_tweet else sentence
+        
+        if current_tweet:
+            result.append(current_tweet.strip())
+        
+        return result
+    
+    def check_rate_limits(self, response):
+        """Extract and display rate limit information from response"""
+        try:
+            # Twitter API v2 returns rate limit info in response metadata
+            # For Client.create_tweet, we don't get direct header access
+            # But we can catch rate limit exceptions
+            print(f"📊 Rate limit check: Tweet posted successfully")
+            return True
+        except Exception as e:
+            print(f"⚠️ Could not check rate limits: {e}")
+            return False
+    
     def generate_comprehensive_thread(self, topic, complexity):
         """Generate a comprehensive thread optimized for system design interviews"""
         
         # Set thread length based on complexity
         thread_lengths = {
-            "simple": "3-4",
-            "medium": "5-6", 
-            "complex": "7-9"
+            "simple": "3-5",
+            "medium": "6-10", 
+            "complex": "11-15"
         }
-        target_length = thread_lengths.get(complexity, "5-6")
+        target_length = thread_lengths.get(complexity, "5-7")
         
         # Check if this is a repeated topic to add novelty
         cycle_number = self.posted_topics.count(topic) + 1
@@ -149,7 +203,7 @@ class AISystemDesignBot:
 
 Create a comprehensive Twitter thread about: "{topic}"{novelty_instruction}
 
-This thread is for engineers preparing for system design interviews at FAANG companies. Make it interview-focused and GO DEEP into concepts and trade-offs.
+This thread is for engineers preparing for system design interviews. Make it interview-focused and GO DEEP into concepts and trade-offs.
 
 THREAD STRUCTURE ({target_length} tweets):
 
@@ -224,13 +278,16 @@ Return ONLY valid JSON array of tweet strings:
             # Parse JSON
             tweets = json.loads(content)
             
-            # Validate each tweet length
+            # Validate and auto-split tweets if needed
             validated_tweets = []
             for i, tweet in enumerate(tweets):
                 if len(tweet) > 280:
-                    print(f"⚠️ Tweet {i+1} too long ({len(tweet)} chars), trimming...")
-                    tweet = tweet[:277] + "..."
-                validated_tweets.append(tweet)
+                    print(f"⚠️ Tweet {i+1} too long ({len(tweet)} chars), auto-splitting...")
+                    split_tweets = self.split_long_tweet(tweet, max_length=280)
+                    print(f"   Split into {len(split_tweets)} tweets")
+                    validated_tweets.extend(split_tweets)
+                else:
+                    validated_tweets.append(tweet)
             
             return validated_tweets
             
@@ -257,13 +314,12 @@ Rate this thread on a STRICT scale:
 1. Technical Depth (does it go beyond surface level?)
 2. Trade-offs Analysis (are trade-offs explained in detail?)
 3. Real-world applicability (concrete examples with specifics?)
-4. Interview-readiness (would this help in a FAANG interview?)
+4. Interview-readiness (would this help in a tech interview?)
 
 Respond in JSON format:
 {{
     "score": 1-10,
     "is_good": true/false,
-    "missing": ["what could be deeper"],
     "feedback": "2-3 sentences of actionable feedback"
 }}
 
@@ -294,7 +350,7 @@ Score < 6 means regenerate."""
             return {"score": 8, "is_good": True, "feedback": "Validation skipped"}
     
     def post_thread(self, tweets):
-        """Post a Twitter thread with rate limit handling"""
+        """Post a Twitter thread with rate limit handling and tracking"""
         try:
             previous_tweet_id = None
             posted_ids = []
@@ -302,10 +358,14 @@ Score < 6 means regenerate."""
             # Determine delay based on environment
             delay_seconds = 60 if os.getenv("GITHUB_ACTIONS") else 5
             
+            print(f"\n📊 Rate Limit Status:")
+            print(f"   Starting thread with {len(tweets)} tweets")
+            print(f"   Delay between tweets: {delay_seconds} seconds")
+            
             for i, tweet_text in enumerate(tweets):
                 # Add thread numbering to first tweet
                 if i == 0:
-                    tweet_text = f"🧵 Thread: {tweet_text}"
+                    tweet_text = f"Thread: {tweet_text}"
                 
                 try:
                     if previous_tweet_id:
@@ -318,7 +378,13 @@ Score < 6 means regenerate."""
                     
                     previous_tweet_id = response.data['id']
                     posted_ids.append(previous_tweet_id)
-                    print(f"✅ Thread tweet {i+1}/{len(tweets)} posted!")
+                    print(f"✅ Thread tweet {i+1}/{len(tweets)} posted! (ID: {previous_tweet_id})")
+                    
+                    # Try to extract rate limit info (Twitter API v2 Client doesn't expose headers directly)
+                    # We'll track it manually based on successful posts
+                    remaining_in_thread = len(tweets) - (i + 1)
+                    if remaining_in_thread > 0:
+                        print(f"   📉 Tweets remaining in thread: {remaining_in_thread}")
                     
                     # Delay between tweets to avoid rate limits
                     if i < len(tweets) - 1:
@@ -327,8 +393,32 @@ Score < 6 means regenerate."""
                         time.sleep(delay_seconds)
                 
                 except tweepy.TooManyRequests as e:
-                    print(f"⚠️ Rate limit hit on tweet {i+1}. Waiting 90 seconds...")
-                    time.sleep(90)
+                    # Extract rate limit info from error if available
+                    print(f"⚠️ Rate limit hit on tweet {i+1}!")
+                    print(f"   Error details: {str(e)}")
+                    
+                    # Check if we can get reset time
+                    try:
+                        if hasattr(e, 'response') and e.response is not None:
+                            headers = e.response.headers
+                            reset_time = headers.get('x-rate-limit-reset', 'Unknown')
+                            remaining = headers.get('x-rate-limit-remaining', 'Unknown')
+                            limit = headers.get('x-rate-limit-limit', 'Unknown')
+                            
+                            print(f"   📊 Rate Limit Info:")
+                            print(f"      Limit: {limit}")
+                            print(f"      Remaining: {remaining}")
+                            print(f"      Reset at: {reset_time}")
+                            
+                            if reset_time != 'Unknown':
+                                reset_datetime = datetime.fromtimestamp(int(reset_time))
+                                print(f"      Reset time: {reset_datetime.strftime('%Y-%m-%d %H:%M:%S')}")
+                    except Exception as parse_error:
+                        print(f"   Could not parse rate limit headers: {parse_error}")
+                    
+                    print(f"   Waiting 1 minute before retry...")
+                    time.sleep(60)
+                    
                     # Retry once
                     try:
                         if previous_tweet_id:
@@ -346,15 +436,40 @@ Score < 6 means regenerate."""
                         if i < len(tweets) - 1:
                             print(f"⏳ Waiting {delay_seconds} seconds before next tweet...")
                             time.sleep(delay_seconds)
+                            
+                    except tweepy.TooManyRequests as retry_error:
+                        print(f"❌ Still rate limited after retry!")
+                        print(f"   Waiting 1 minute before final attempt...")
+                        time.sleep(60)
+                        
+                        # Final retry
+                        if previous_tweet_id:
+                            response = self.twitter_client.create_tweet(
+                                text=tweet_text,
+                                in_reply_to_tweet_id=previous_tweet_id
+                            )
+                        else:
+                            response = self.twitter_client.create_tweet(text=tweet_text)
+                        
+                        previous_tweet_id = response.data['id']
+                        posted_ids.append(previous_tweet_id)
+                        print(f"✅ Thread tweet {i+1}/{len(tweets)} posted (after final retry)!")
+                        
                     except Exception as retry_error:
-                        print(f"❌ Failed to post tweet {i+1} even after retry: {retry_error}")
+                        print(f"❌ Failed to post tweet {i+1} even after retries: {retry_error}")
+                        print(f"   Posted {i}/{len(tweets)} tweets successfully")
+                        print(f"   Thread URL: https://twitter.com/user/status/{posted_ids[0]}")
                         raise
             
+            print(f"\n✅ Thread complete! Posted {len(posted_ids)} tweets")
             return posted_ids
             
         except Exception as e:
             print(f"❌ Error posting thread: {str(e)}")
-            return None
+            if posted_ids:
+                print(f"   Partial thread posted: {len(posted_ids)} tweets")
+                print(f"   Thread URL: https://twitter.com/user/status/{posted_ids[0]}")
+            return posted_ids if posted_ids else None
     
     def create_and_post(self):
         """Main method to generate and post content"""
