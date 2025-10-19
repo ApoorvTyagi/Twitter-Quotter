@@ -1,4 +1,4 @@
-# [Twitter-Quotter](x.com/queue_overflow)
+# Twitter-Quotter
 Version 3.0
 
 # System Design X profile
