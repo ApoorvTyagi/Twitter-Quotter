@@ -50,7 +50,6 @@ Each thread follows this interview-optimized format:
    - When to use vs not use
    - Real company examples (Netflix, Uber, Amazon)
    - Common mistakes and pitfalls
-   - Only hashtag: `#SystemDesign` in final tweet
 
 ## 🚀 Setup Guide
 
@@ -59,7 +58,6 @@ Each thread follows this interview-optimized format:
 - Python 3.11+
 - X Developer Account with API access
 - OpenAI API key
-- GitHub account
 
 ### 1. Clone the Repository
 
@@ -255,7 +253,7 @@ Twitter-Quotter/
                 ↓
               Generate thread with GPT-4o-mini
                 ↓
-              Validate thread quality (must score 8+/10)
+              Validate thread quality (must score 7+/10)
                 ↓
               Post thread to X (60s delay between tweets)
                 ↓
@@ -286,7 +284,7 @@ Each thread is validated before posting:
 - ✅ Interview-readiness score
 - ✅ Proper hashtag placement
 
-Only threads scoring 8+/10 are posted!
+Only threads scoring 7+/10 are posted!
 
 ## 💰 Cost Breakdown
 
@@ -326,7 +324,7 @@ Only threads scoring 8+/10 are posted!
 - Increase delay in `post_thread()` method
 - Default is 60 seconds, try 90 or 120
 
-### posted_topics.json not updating
+### `Posted_topics.json` not updating
 
 **Fix:**
 - Enable "Read and write permissions" in Settings → Actions
@@ -335,29 +333,8 @@ Only threads scoring 8+/10 are posted!
 ### Thread quality too low / keeps regenerating
 
 **Fix:**
-- Lower threshold from 8 to 7 in `validate_thread_quality()`
+- Lower threshold in `validate_thread_quality()`
 - Or improve the generation prompt
-
-## 📈 Best Practices
-
-1. **Monitor First Week**
-   - Check logs daily
-   - Verify tweet quality
-   - Watch for errors
-
-2. **Track Engagement**
-   - Note which topics get more engagement
-   - Adjust complexity/length if needed
-
-3. **Security**
-   - Never commit secrets to code
-   - Keep API keys secure
-   - Regenerate if exposed
-
-4. **Content Quality**
-   - Review generated threads occasionally
-   - Refine prompts if needed
-   - Maintain technical accuracy
 
 ## 🤝 Contributing
 
