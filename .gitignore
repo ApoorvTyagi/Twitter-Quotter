@@ -2,7 +2,6 @@
 __pycache__/
 .env
 *.env
-posted_topics.json
 archive
 .env
 *.pyc
