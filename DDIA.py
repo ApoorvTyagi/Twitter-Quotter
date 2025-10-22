@@ -8,6 +8,7 @@ import random
 import os
 from dotenv import load_dotenv
 
+load_dotenv()
 import os
 
 TWITTER_API_KEY = os.getenv("TWITTER_API_KEY")
@@ -16,14 +17,6 @@ TWITTER_ACCESS_TOKEN = os.getenv("TWITTER_ACCESS_TOKEN")
 TWITTER_ACCESS_TOKEN_SECRET = os.getenv("TWITTER_ACCESS_TOKEN_SECRET")
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
 
-
-# load_dotenv()
-
-# TWITTER_API_KEY = os.getenv("TWITTER_API_KEY")
-# TWITTER_API_SECRET = os.getenv("TWITTER_API_SECRET")
-# TWITTER_ACCESS_TOKEN = os.getenv("TWITTER_ACCESS_TOKEN")
-# TWITTER_ACCESS_TOKEN_SECRET = os.getenv("TWITTER_ACCESS_TOKEN_SECRET")
-# OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
 
 # Initialize OpenAI
 openai.api_key = OPENAI_API_KEY
@@ -227,10 +220,10 @@ Tweet 4-6 (Technical Deep Dive - THIS IS CRITICAL):
 - NO hashtags
 
 Tweet 7+ (Trade-offs Analysis - INTERVIEW GOLD):
-- DETAILED trade-offs (CAP theorem implications, consistency vs availability, etc.)
+- DETAILED trade-offs (what exact use case will this solve and what are we losing?)
 - When to use vs when NOT to use (be specific about scenarios)
-- Real production examples: "Netflix does X because Y, but Uber does Z because W"
-- Performance characteristics (Big O, throughput, latency numbers)
+- Real production examples: "Big tech company does X because Y, but another tech company does Z because W"
+- Performance characteristics (Big O, throughput, latency numbers), If appliacable
 - Failure modes and edge cases
 - Common mistakes that cause production incidents
 - NO hashtags
