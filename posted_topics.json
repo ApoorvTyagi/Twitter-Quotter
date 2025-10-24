@@ -1,5 +1,6 @@
 [
   "Request routing in distributed systems",
   "Two-phase locking",
-  "Distributed consensus algorithms"
+  "Distributed consensus algorithms",
+  "Lambda vs Kappa architecture"
 ]
