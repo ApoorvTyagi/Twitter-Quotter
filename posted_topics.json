@@ -2,5 +2,6 @@
   "Request routing in distributed systems",
   "Two-phase locking",
   "Distributed consensus algorithms",
-  "Lambda vs Kappa architecture"
+  "Lambda vs Kappa architecture",
+  "Write-ahead logging (WAL)"
 ]
