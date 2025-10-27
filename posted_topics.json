@@ -4,5 +4,6 @@
   "Distributed consensus algorithms",
   "Lambda vs Kappa architecture",
   "Write-ahead logging (WAL)",
-  "Partitioning strategies"
+  "Partitioning strategies",
+  "Stream processing concepts"
 ]
