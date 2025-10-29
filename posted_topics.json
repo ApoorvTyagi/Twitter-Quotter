@@ -6,5 +6,6 @@
   "Write-ahead logging (WAL)",
   "Partitioning strategies",
   "Stream processing concepts",
-  "B-trees vs LSM-trees trade-offs"
+  "B-trees vs LSM-trees trade-offs",
+  "Serializable snapshot isolation"
 ]
