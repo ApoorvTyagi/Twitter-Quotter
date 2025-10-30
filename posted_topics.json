@@ -7,5 +7,6 @@
   "Partitioning strategies",
   "Stream processing concepts",
   "B-trees vs LSM-trees trade-offs",
-  "Serializable snapshot isolation"
+  "Serializable snapshot isolation",
+  "Message brokers and event logs"
 ]
