@@ -8,5 +8,6 @@
   "Stream processing concepts",
   "B-trees vs LSM-trees trade-offs",
   "Serializable snapshot isolation",
-  "Message brokers and event logs"
+  "Message brokers and event logs",
+  "Linearizability guarantees"
 ]
