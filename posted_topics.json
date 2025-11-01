@@ -9,5 +9,6 @@
   "B-trees vs LSM-trees trade-offs",
   "Serializable snapshot isolation",
   "Message brokers and event logs",
-  "Linearizability guarantees"
+  "Linearizability guarantees",
+  "Bloom filters in databases"
 ]
