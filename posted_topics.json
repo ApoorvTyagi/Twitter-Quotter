@@ -10,5 +10,6 @@
   "Serializable snapshot isolation",
   "Message brokers and event logs",
   "Linearizability guarantees",
-  "Bloom filters in databases"
+  "Bloom filters in databases",
+  "Weak isolation levels"
 ]
