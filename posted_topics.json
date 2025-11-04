@@ -12,5 +12,6 @@
   "Linearizability guarantees",
   "Bloom filters in databases",
   "Weak isolation levels",
-  "Column-oriented storage"
+  "Column-oriented storage",
+  "Transactions and ACID properties"
 ]
