@@ -13,5 +13,6 @@
   "Bloom filters in databases",
   "Weak isolation levels",
   "Column-oriented storage",
-  "Transactions and ACID properties"
+  "Transactions and ACID properties",
+  "Raft consensus algorithm"
 ]
