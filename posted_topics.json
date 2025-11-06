@@ -14,5 +14,6 @@
   "Weak isolation levels",
   "Column-oriented storage",
   "Transactions and ACID properties",
-  "Raft consensus algorithm"
+  "Raft consensus algorithm",
+  "Serializability"
 ]
