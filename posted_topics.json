@@ -15,5 +15,6 @@
   "Column-oriented storage",
   "Transactions and ACID properties",
   "Raft consensus algorithm",
-  "Serializability"
+  "Serializability",
+  "Reliability in distributed systems"
 ]
