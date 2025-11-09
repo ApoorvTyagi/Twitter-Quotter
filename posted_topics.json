@@ -16,5 +16,6 @@
   "Transactions and ACID properties",
   "Raft consensus algorithm",
   "Serializability",
-  "Reliability in distributed systems"
+  "Reliability in distributed systems",
+  "Batch processing fundamentals"
 ]
