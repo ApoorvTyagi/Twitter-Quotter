@@ -17,5 +17,6 @@
   "Raft consensus algorithm",
   "Serializability",
   "Reliability in distributed systems",
-  "Batch processing fundamentals"
+  "Batch processing fundamentals",
+  "Hash indexes and SSTables"
 ]
