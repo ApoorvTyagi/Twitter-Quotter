@@ -18,5 +18,6 @@
   "Serializability",
   "Reliability in distributed systems",
   "Batch processing fundamentals",
-  "Hash indexes and SSTables"
+  "Hash indexes and SSTables",
+  "Replication lag and consistency"
 ]
