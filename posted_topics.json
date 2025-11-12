@@ -19,5 +19,6 @@
   "Reliability in distributed systems",
   "Batch processing fundamentals",
   "Hash indexes and SSTables",
-  "Replication lag and consistency"
+  "Replication lag and consistency",
+  "CAP theorem explained"
 ]
