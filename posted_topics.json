@@ -22,5 +22,6 @@
   "Replication lag and consistency",
   "CAP theorem explained",
   "Write skew and phantoms",
-  "Kafka and log-based message brokers"
+  "Kafka and log-based message brokers",
+  "Leaderless replication and quorums"
 ]
