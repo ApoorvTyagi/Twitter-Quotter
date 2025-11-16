@@ -23,5 +23,6 @@
   "CAP theorem explained",
   "Write skew and phantoms",
   "Kafka and log-based message brokers",
-  "Leaderless replication and quorums"
+  "Leaderless replication and quorums",
+  "MapReduce and distributed filesystems"
 ]
