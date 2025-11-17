@@ -24,5 +24,6 @@
   "Write skew and phantoms",
   "Kafka and log-based message brokers",
   "Leaderless replication and quorums",
-  "MapReduce and distributed filesystems"
+  "MapReduce and distributed filesystems",
+  "Snapshot isolation and repeatable read"
 ]
