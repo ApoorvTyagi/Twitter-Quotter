@@ -25,5 +25,6 @@
   "Kafka and log-based message brokers",
   "Leaderless replication and quorums",
   "MapReduce and distributed filesystems",
-  "Snapshot isolation and repeatable read"
+  "Snapshot isolation and repeatable read",
+  "Leader-based replication"
 ]
