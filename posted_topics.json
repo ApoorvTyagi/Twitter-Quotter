@@ -26,5 +26,6 @@
   "Leaderless replication and quorums",
   "MapReduce and distributed filesystems",
   "Snapshot isolation and repeatable read",
-  "Leader-based replication"
+  "Leader-based replication",
+  "Multi-leader replication conflicts"
 ]
