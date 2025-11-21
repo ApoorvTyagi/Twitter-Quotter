@@ -27,5 +27,6 @@
   "MapReduce and distributed filesystems",
   "Snapshot isolation and repeatable read",
   "Leader-based replication",
-  "Multi-leader replication conflicts"
+  "Multi-leader replication conflicts",
+  "Two-phase commit protocol"
 ]
