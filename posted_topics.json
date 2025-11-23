@@ -28,5 +28,6 @@
   "Snapshot isolation and repeatable read",
   "Leader-based replication",
   "Multi-leader replication conflicts",
-  "Two-phase commit protocol"
+  "Two-phase commit protocol",
+  "Scalability and performance metrics"
 ]
