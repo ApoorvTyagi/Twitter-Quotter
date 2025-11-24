@@ -29,5 +29,6 @@
   "Leader-based replication",
   "Multi-leader replication conflicts",
   "Two-phase commit protocol",
-  "Scalability and performance metrics"
+  "Scalability and performance metrics",
+  "Read committed isolation"
 ]
