@@ -30,5 +30,6 @@
   "Multi-leader replication conflicts",
   "Two-phase commit protocol",
   "Scalability and performance metrics",
-  "Read committed isolation"
+  "Read committed isolation",
+  "Stream joins and windowing"
 ]
