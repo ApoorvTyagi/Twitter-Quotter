@@ -31,5 +31,6 @@
   "Two-phase commit protocol",
   "Scalability and performance metrics",
   "Read committed isolation",
-  "Stream joins and windowing"
+  "Stream joins and windowing",
+  "Fault tolerance in stream processing"
 ]
