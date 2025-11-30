@@ -1,4 +1,5 @@
 [
   "Reliability in distributed systems",
-  "Linearizability guarantees"
+  "Linearizability guarantees",
+  "Two-phase locking"
 ]
