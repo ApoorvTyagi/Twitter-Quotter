@@ -2,5 +2,6 @@
   "Reliability in distributed systems",
   "Linearizability guarantees",
   "Two-phase locking",
-  "Two-phase commit protocol"
+  "Two-phase commit protocol",
+  "CAP theorem explained"
 ]
