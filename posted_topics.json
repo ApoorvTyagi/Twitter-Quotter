@@ -3,5 +3,6 @@
   "Linearizability guarantees",
   "Two-phase locking",
   "Two-phase commit protocol",
-  "CAP theorem explained"
+  "CAP theorem explained",
+  "Serializable snapshot isolation"
 ]
