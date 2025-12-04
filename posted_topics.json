@@ -4,5 +4,6 @@
   "Two-phase locking",
   "Two-phase commit protocol",
   "CAP theorem explained",
-  "Serializable snapshot isolation"
+  "Serializable snapshot isolation",
+  "Partitioning strategies"
 ]
