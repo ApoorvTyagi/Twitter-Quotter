@@ -6,5 +6,6 @@
   "CAP theorem explained",
   "Serializable snapshot isolation",
   "Partitioning strategies",
-  "Message brokers and event logs"
+  "Message brokers and event logs",
+  "Write skew and phantoms"
 ]
