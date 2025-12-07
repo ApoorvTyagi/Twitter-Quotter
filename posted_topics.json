@@ -7,5 +7,6 @@
   "Serializable snapshot isolation",
   "Partitioning strategies",
   "Message brokers and event logs",
-  "Write skew and phantoms"
+  "Write skew and phantoms",
+  "Column-oriented storage"
 ]
