@@ -8,5 +8,6 @@
   "Partitioning strategies",
   "Message brokers and event logs",
   "Write skew and phantoms",
-  "Column-oriented storage"
+  "Column-oriented storage",
+  "Scalability and performance metrics"
 ]
