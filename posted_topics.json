@@ -10,5 +10,6 @@
   "Write skew and phantoms",
   "Column-oriented storage",
   "Scalability and performance metrics",
-  "Bloom filters in databases"
+  "Bloom filters in databases",
+  "Transactions and ACID properties"
 ]
