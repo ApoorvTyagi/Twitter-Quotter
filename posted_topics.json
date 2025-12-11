@@ -11,5 +11,6 @@
   "Column-oriented storage",
   "Scalability and performance metrics",
   "Bloom filters in databases",
-  "Transactions and ACID properties"
+  "Transactions and ACID properties",
+  "Leaderless replication and quorums"
 ]
