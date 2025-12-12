@@ -12,5 +12,6 @@
   "Scalability and performance metrics",
   "Bloom filters in databases",
   "Transactions and ACID properties",
-  "Leaderless replication and quorums"
+  "Leaderless replication and quorums",
+  "Snapshot isolation and repeatable read"
 ]
