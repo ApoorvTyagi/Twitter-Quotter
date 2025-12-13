@@ -13,5 +13,6 @@
   "Bloom filters in databases",
   "Transactions and ACID properties",
   "Leaderless replication and quorums",
-  "Snapshot isolation and repeatable read"
+  "Snapshot isolation and repeatable read",
+  "Serializability"
 ]
