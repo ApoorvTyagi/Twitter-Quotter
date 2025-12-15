@@ -15,5 +15,6 @@
   "Leaderless replication and quorums",
   "Snapshot isolation and repeatable read",
   "Serializability",
-  "Stream processing concepts"
+  "Stream processing concepts",
+  "Request routing in distributed systems"
 ]
