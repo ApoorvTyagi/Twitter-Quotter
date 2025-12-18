@@ -16,5 +16,6 @@
   "Snapshot isolation and repeatable read",
   "Serializability",
   "Stream processing concepts",
-  "Request routing in distributed systems"
+  "Request routing in distributed systems",
+  "Batch processing fundamentals"
 ]
