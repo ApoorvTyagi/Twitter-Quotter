@@ -17,5 +17,6 @@
   "Serializability",
   "Stream processing concepts",
   "Request routing in distributed systems",
-  "Batch processing fundamentals"
+  "Batch processing fundamentals",
+  "Distributed consensus algorithms"
 ]
