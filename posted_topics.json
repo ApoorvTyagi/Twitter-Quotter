@@ -18,5 +18,6 @@
   "Stream processing concepts",
   "Request routing in distributed systems",
   "Batch processing fundamentals",
-  "Distributed consensus algorithms"
+  "Distributed consensus algorithms",
+  "Multi-leader replication conflicts"
 ]
