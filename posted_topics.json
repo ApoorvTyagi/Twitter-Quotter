@@ -19,5 +19,6 @@
   "Request routing in distributed systems",
   "Batch processing fundamentals",
   "Distributed consensus algorithms",
-  "Multi-leader replication conflicts"
+  "Multi-leader replication conflicts",
+  "MapReduce and distributed filesystems"
 ]
