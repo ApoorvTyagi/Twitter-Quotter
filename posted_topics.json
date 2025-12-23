@@ -20,5 +20,6 @@
   "Batch processing fundamentals",
   "Distributed consensus algorithms",
   "Multi-leader replication conflicts",
-  "MapReduce and distributed filesystems"
+  "MapReduce and distributed filesystems",
+  "Leader-based replication"
 ]
