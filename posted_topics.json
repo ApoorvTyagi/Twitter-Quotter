@@ -21,5 +21,6 @@
   "Distributed consensus algorithms",
   "Multi-leader replication conflicts",
   "MapReduce and distributed filesystems",
-  "Leader-based replication"
+  "Leader-based replication",
+  "Fault tolerance in stream processing"
 ]
