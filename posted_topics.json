@@ -23,5 +23,6 @@
   "MapReduce and distributed filesystems",
   "Leader-based replication",
   "Fault tolerance in stream processing",
-  "B-trees vs LSM-trees trade-offs"
+  "B-trees vs LSM-trees trade-offs",
+  "Hash indexes and SSTables"
 ]
