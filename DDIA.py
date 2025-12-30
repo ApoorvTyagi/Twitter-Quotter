@@ -94,8 +94,36 @@ class AISystemDesignBot:
             me = self.twitter_client.get_me()
             print(f"✅ Authenticated as: @{me.data.username}")
             
+        except tweepy.errors.Forbidden as e:
+            print(f"❌ 403 Forbidden Error: {e}")
+            print(f"📄 Response Text: {e.response.text if hasattr(e, 'response') else 'No response'}")
+            print(f"📊 Response Status: {e.response.status_code if hasattr(e, 'response') else 'N/A'}")
+            print(f"🔍 Response Headers: {dict(e.response.headers) if hasattr(e, 'response') else 'N/A'}")
+            try:
+                print(f"📋 Response JSON: {e.response.json()}")
+            except:
+                pass
+            raise
+        except tweepy.errors.TooManyRequests as e:
+            print(f"❌ 429 Rate Limit Error: {e}")
+            print(f"📄 Response Text: {e.response.text if hasattr(e, 'response') else 'No response'}")
+            print(f"⏰ Rate limit will reset at: {e.response.headers.get('x-rate-limit-reset', 'Unknown') if hasattr(e, 'response') else 'N/A'}")
+            raise
+        except tweepy.errors.Unauthorized as e:
+            print(f"❌ 401 Unauthorized Error: {e}")
+            print(f"📄 Response Text: {e.response.text if hasattr(e, 'response') else 'No response'}")
+            print(f"🔑 Check your API credentials!")
+            raise
+        except tweepy.errors.TwitterServerError as e:
+            print(f"❌ Twitter Server Error: {e}")
+            print(f"📄 Response: {e.response.text if hasattr(e, 'response') else 'No response'}")
+            raise
         except Exception as e:
-            print(f"❌ Authentication failed: {e}")
+            print(f"❌ Unexpected Error: {type(e).__name__}: {e}")
+            print(f"📄 Response Text: {e.response.text if hasattr(e, 'response') else 'No response'}")
+            print(f"📊 Full error details: {repr(e)}")
+            if hasattr(e, '__dict__'):
+                print(f"🔍 Error attributes: {e.__dict__}")
             raise
         
         self.posted_topics = self.load_posted_topics()
