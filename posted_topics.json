@@ -25,5 +25,6 @@
   "Fault tolerance in stream processing",
   "B-trees vs LSM-trees trade-offs",
   "Hash indexes and SSTables",
-  "Weak isolation levels"
+  "Weak isolation levels",
+  "Raft consensus algorithm"
 ]
