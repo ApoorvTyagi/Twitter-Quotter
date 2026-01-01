@@ -91,9 +91,13 @@ class AISystemDesignBot:
                 access_token_secret=TWITTER_ACCESS_TOKEN_SECRET
             )
             
-            me = self.twitter_client.get_me()
-            print(f"✅ Authenticated as: @{me.data.username}")
-            
+            # Cloudflare blocks this endpoint intermittently from CI IPs.
+            if not os.getenv("GITHUB_ACTIONS"):
+                me = self.twitter_client.get_me()
+                print(f"✅ Authenticated as: @{me.data.username}")
+            else:
+                print("ℹ️ GitHub Actions detected — skipping get_me() to avoid Cloudflare 403")
+ 
         except tweepy.errors.Forbidden as e:
             print(f"❌ 403 Forbidden Error: {e}")
             print(f"📄 Response Text: {e.response.text if hasattr(e, 'response') else 'No response'}")
