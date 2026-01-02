@@ -26,5 +26,6 @@
   "B-trees vs LSM-trees trade-offs",
   "Hash indexes and SSTables",
   "Weak isolation levels",
-  "Raft consensus algorithm"
+  "Raft consensus algorithm",
+  "Stream joins and windowing"
 ]
