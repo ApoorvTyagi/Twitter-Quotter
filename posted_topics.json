@@ -27,5 +27,6 @@
   "Hash indexes and SSTables",
   "Weak isolation levels",
   "Raft consensus algorithm",
-  "Stream joins and windowing"
+  "Stream joins and windowing",
+  "Replication lag and consistency"
 ]
