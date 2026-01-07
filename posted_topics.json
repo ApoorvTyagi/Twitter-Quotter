@@ -28,5 +28,6 @@
   "Weak isolation levels",
   "Raft consensus algorithm",
   "Stream joins and windowing",
-  "Replication lag and consistency"
+  "Replication lag and consistency",
+  "Write-ahead logging (WAL)"
 ]
