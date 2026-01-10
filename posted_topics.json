@@ -30,5 +30,6 @@
   "Stream joins and windowing",
   "Replication lag and consistency",
   "Write-ahead logging (WAL)",
-  "Read committed isolation"
+  "Read committed isolation",
+  "Kafka and log-based message brokers"
 ]
