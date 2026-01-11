@@ -2,8 +2,7 @@ name: Queue Overflow
 
 on:
   schedule:
-    # Trigger at 7:00 PM IST (13:30 UTC)
-    - cron: '30 13 * * *'
+    - cron: '30 13 1-31/2 * *'
   workflow_dispatch:  # Manual trigger for testing
 
 jobs:
