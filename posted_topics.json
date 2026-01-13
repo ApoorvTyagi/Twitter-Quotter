@@ -31,5 +31,6 @@
   "Replication lag and consistency",
   "Write-ahead logging (WAL)",
   "Read committed isolation",
-  "Kafka and log-based message brokers"
+  "Kafka and log-based message brokers",
+  "Lambda vs Kappa architecture"
 ]
