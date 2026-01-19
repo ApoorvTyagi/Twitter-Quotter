@@ -1,4 +1,5 @@
 [
   "Batch processing fundamentals",
-  "Bloom filters in databases"
+  "Bloom filters in databases",
+  "Serializability"
 ]
