@@ -1,5 +1,6 @@
 [
   "Batch processing fundamentals",
   "Bloom filters in databases",
-  "Serializability"
+  "Serializability",
+  "Read committed isolation"
 ]
