@@ -2,5 +2,6 @@
   "Batch processing fundamentals",
   "Bloom filters in databases",
   "Serializability",
-  "Read committed isolation"
+  "Read committed isolation",
+  "Scalability and performance metrics"
 ]
