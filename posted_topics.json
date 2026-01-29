@@ -4,5 +4,6 @@
   "Serializability",
   "Read committed isolation",
   "Scalability and performance metrics",
-  "CAP theorem explained"
+  "CAP theorem explained",
+  "Raft consensus algorithm"
 ]
