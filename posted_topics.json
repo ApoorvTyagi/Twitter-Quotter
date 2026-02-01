@@ -6,5 +6,6 @@
   "Scalability and performance metrics",
   "CAP theorem explained",
   "Raft consensus algorithm",
-  "Column-oriented storage"
+  "Column-oriented storage",
+  "Two-phase locking"
 ]
