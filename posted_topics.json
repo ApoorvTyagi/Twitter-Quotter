@@ -7,5 +7,6 @@
   "CAP theorem explained",
   "Raft consensus algorithm",
   "Column-oriented storage",
-  "Two-phase locking"
+  "Two-phase locking",
+  "Weak isolation levels"
 ]
