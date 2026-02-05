@@ -8,5 +8,6 @@
   "Raft consensus algorithm",
   "Column-oriented storage",
   "Two-phase locking",
-  "Weak isolation levels"
+  "Weak isolation levels",
+  "Leader-based replication"
 ]
