@@ -9,5 +9,6 @@
   "Column-oriented storage",
   "Two-phase locking",
   "Weak isolation levels",
-  "Leader-based replication"
+  "Leader-based replication",
+  "Distributed consensus algorithms"
 ]
