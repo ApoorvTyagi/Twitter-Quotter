@@ -10,5 +10,6 @@
   "Two-phase locking",
   "Weak isolation levels",
   "Leader-based replication",
-  "Distributed consensus algorithms"
+  "Distributed consensus algorithms",
+  "Partitioning strategies"
 ]
