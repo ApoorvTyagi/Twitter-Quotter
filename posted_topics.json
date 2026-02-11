@@ -11,5 +11,6 @@
   "Weak isolation levels",
   "Leader-based replication",
   "Distributed consensus algorithms",
-  "Partitioning strategies"
+  "Partitioning strategies",
+  "Stream joins and windowing"
 ]
