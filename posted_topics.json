@@ -12,5 +12,6 @@
   "Leader-based replication",
   "Distributed consensus algorithms",
   "Partitioning strategies",
-  "Stream joins and windowing"
+  "Stream joins and windowing",
+  "Two-phase commit protocol"
 ]
