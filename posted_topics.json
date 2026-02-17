@@ -13,5 +13,6 @@
   "Distributed consensus algorithms",
   "Partitioning strategies",
   "Stream joins and windowing",
-  "Two-phase commit protocol"
+  "Two-phase commit protocol",
+  "Write skew and phantoms"
 ]
