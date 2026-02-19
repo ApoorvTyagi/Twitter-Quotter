@@ -14,5 +14,6 @@
   "Partitioning strategies",
   "Stream joins and windowing",
   "Two-phase commit protocol",
-  "Write skew and phantoms"
+  "Write skew and phantoms",
+  "Lambda vs Kappa architecture"
 ]
