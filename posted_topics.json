@@ -15,5 +15,6 @@
   "Stream joins and windowing",
   "Two-phase commit protocol",
   "Write skew and phantoms",
-  "Lambda vs Kappa architecture"
+  "Lambda vs Kappa architecture",
+  "Linearizability guarantees"
 ]
