@@ -16,5 +16,6 @@
   "Two-phase commit protocol",
   "Write skew and phantoms",
   "Lambda vs Kappa architecture",
-  "Linearizability guarantees"
+  "Linearizability guarantees",
+  "Stream processing concepts"
 ]
