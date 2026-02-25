@@ -17,5 +17,6 @@
   "Write skew and phantoms",
   "Lambda vs Kappa architecture",
   "Linearizability guarantees",
-  "Stream processing concepts"
+  "Stream processing concepts",
+  "Reliability in distributed systems"
 ]
