@@ -18,5 +18,6 @@
   "Lambda vs Kappa architecture",
   "Linearizability guarantees",
   "Stream processing concepts",
-  "Reliability in distributed systems"
+  "Reliability in distributed systems",
+  "Fault tolerance in stream processing"
 ]
