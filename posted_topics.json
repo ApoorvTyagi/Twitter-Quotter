@@ -19,5 +19,6 @@
   "Linearizability guarantees",
   "Stream processing concepts",
   "Reliability in distributed systems",
-  "Fault tolerance in stream processing"
+  "Fault tolerance in stream processing",
+  "Request routing in distributed systems"
 ]
