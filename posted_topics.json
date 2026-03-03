@@ -20,5 +20,6 @@
   "Stream processing concepts",
   "Reliability in distributed systems",
   "Fault tolerance in stream processing",
-  "Request routing in distributed systems"
+  "Request routing in distributed systems",
+  "B-trees vs LSM-trees trade-offs"
 ]
