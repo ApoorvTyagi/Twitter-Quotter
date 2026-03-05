@@ -21,5 +21,6 @@
   "Reliability in distributed systems",
   "Fault tolerance in stream processing",
   "Request routing in distributed systems",
-  "B-trees vs LSM-trees trade-offs"
+  "B-trees vs LSM-trees trade-offs",
+  "Hash indexes and SSTables"
 ]
