@@ -22,5 +22,6 @@
   "Fault tolerance in stream processing",
   "Request routing in distributed systems",
   "B-trees vs LSM-trees trade-offs",
-  "Hash indexes and SSTables"
+  "Hash indexes and SSTables",
+  "MapReduce and distributed filesystems"
 ]
