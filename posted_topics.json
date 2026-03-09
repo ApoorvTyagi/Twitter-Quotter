@@ -23,5 +23,6 @@
   "Request routing in distributed systems",
   "B-trees vs LSM-trees trade-offs",
   "Hash indexes and SSTables",
-  "MapReduce and distributed filesystems"
+  "MapReduce and distributed filesystems",
+  "Serializable snapshot isolation"
 ]
