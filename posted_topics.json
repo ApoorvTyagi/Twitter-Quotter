@@ -24,5 +24,6 @@
   "B-trees vs LSM-trees trade-offs",
   "Hash indexes and SSTables",
   "MapReduce and distributed filesystems",
-  "Serializable snapshot isolation"
+  "Serializable snapshot isolation",
+  "Replication lag and consistency"
 ]
