@@ -25,5 +25,6 @@
   "Hash indexes and SSTables",
   "MapReduce and distributed filesystems",
   "Serializable snapshot isolation",
-  "Replication lag and consistency"
+  "Replication lag and consistency",
+  "Kafka and log-based message brokers"
 ]
