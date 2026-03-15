@@ -26,5 +26,6 @@
   "MapReduce and distributed filesystems",
   "Serializable snapshot isolation",
   "Replication lag and consistency",
-  "Kafka and log-based message brokers"
+  "Kafka and log-based message brokers",
+  "Snapshot isolation and repeatable read"
 ]
