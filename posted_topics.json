@@ -28,5 +28,6 @@
   "Replication lag and consistency",
   "Kafka and log-based message brokers",
   "Snapshot isolation and repeatable read",
-  "Multi-leader replication conflicts"
+  "Multi-leader replication conflicts",
+  "Message brokers and event logs"
 ]
