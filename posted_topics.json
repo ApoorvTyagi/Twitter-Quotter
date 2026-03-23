@@ -29,5 +29,6 @@
   "Kafka and log-based message brokers",
   "Snapshot isolation and repeatable read",
   "Multi-leader replication conflicts",
-  "Message brokers and event logs"
+  "Message brokers and event logs",
+  "Write-ahead logging (WAL)"
 ]
