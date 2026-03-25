@@ -30,5 +30,6 @@
   "Snapshot isolation and repeatable read",
   "Multi-leader replication conflicts",
   "Message brokers and event logs",
-  "Write-ahead logging (WAL)"
+  "Write-ahead logging (WAL)",
+  "Leaderless replication and quorums"
 ]
