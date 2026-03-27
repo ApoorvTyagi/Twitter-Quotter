@@ -31,5 +31,6 @@
   "Multi-leader replication conflicts",
   "Message brokers and event logs",
   "Write-ahead logging (WAL)",
-  "Leaderless replication and quorums"
+  "Leaderless replication and quorums",
+  "Transactions and ACID properties"
 ]
