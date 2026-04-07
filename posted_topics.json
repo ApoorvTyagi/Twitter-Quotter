@@ -1,5 +1,6 @@
 [
   "Scalability and performance metrics",
   "Bloom filters in databases",
-  "Column-oriented storage"
+  "Column-oriented storage",
+  "Kafka and log-based message brokers"
 ]
