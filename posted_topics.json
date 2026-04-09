@@ -2,5 +2,6 @@
   "Scalability and performance metrics",
   "Bloom filters in databases",
   "Column-oriented storage",
-  "Kafka and log-based message brokers"
+  "Kafka and log-based message brokers",
+  "Two-phase locking"
 ]
