@@ -4,5 +4,6 @@
   "Column-oriented storage",
   "Kafka and log-based message brokers",
   "Two-phase locking",
-  "Serializability"
+  "Serializability",
+  "Multi-leader replication conflicts"
 ]
