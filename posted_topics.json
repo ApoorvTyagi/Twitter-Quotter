@@ -7,5 +7,6 @@
   "Serializability",
   "Multi-leader replication conflicts",
   "Two-phase commit protocol",
-  "Partitioning strategies"
+  "Partitioning strategies",
+  "Stream joins and windowing"
 ]
