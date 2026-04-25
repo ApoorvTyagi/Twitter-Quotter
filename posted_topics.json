@@ -8,5 +8,6 @@
   "Multi-leader replication conflicts",
   "Two-phase commit protocol",
   "Partitioning strategies",
-  "Stream joins and windowing"
+  "Stream joins and windowing",
+  "Snapshot isolation and repeatable read"
 ]
