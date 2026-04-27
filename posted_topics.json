@@ -9,5 +9,6 @@
   "Two-phase commit protocol",
   "Partitioning strategies",
   "Stream joins and windowing",
-  "Snapshot isolation and repeatable read"
+  "Snapshot isolation and repeatable read",
+  "MapReduce and distributed filesystems"
 ]
