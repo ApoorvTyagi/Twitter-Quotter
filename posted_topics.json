@@ -10,5 +10,6 @@
   "Partitioning strategies",
   "Stream joins and windowing",
   "Snapshot isolation and repeatable read",
-  "MapReduce and distributed filesystems"
+  "MapReduce and distributed filesystems",
+  "Batch processing fundamentals"
 ]
