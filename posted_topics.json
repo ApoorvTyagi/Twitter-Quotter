@@ -12,5 +12,6 @@
   "Snapshot isolation and repeatable read",
   "MapReduce and distributed filesystems",
   "Batch processing fundamentals",
-  "Hash indexes and SSTables"
+  "Hash indexes and SSTables",
+  "Raft consensus algorithm"
 ]
