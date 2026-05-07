@@ -13,5 +13,6 @@
   "MapReduce and distributed filesystems",
   "Batch processing fundamentals",
   "Hash indexes and SSTables",
-  "Raft consensus algorithm"
+  "Raft consensus algorithm",
+  "Lambda vs Kappa architecture"
 ]
