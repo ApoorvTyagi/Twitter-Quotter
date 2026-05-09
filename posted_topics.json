@@ -14,5 +14,6 @@
   "Batch processing fundamentals",
   "Hash indexes and SSTables",
   "Raft consensus algorithm",
-  "Lambda vs Kappa architecture"
+  "Lambda vs Kappa architecture",
+  "Stream processing concepts"
 ]
