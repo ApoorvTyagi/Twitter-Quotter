@@ -15,5 +15,6 @@
   "Hash indexes and SSTables",
   "Raft consensus algorithm",
   "Lambda vs Kappa architecture",
-  "Stream processing concepts"
+  "Stream processing concepts",
+  "Weak isolation levels"
 ]
