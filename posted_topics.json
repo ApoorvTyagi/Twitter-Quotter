@@ -16,5 +16,6 @@
   "Raft consensus algorithm",
   "Lambda vs Kappa architecture",
   "Stream processing concepts",
-  "Weak isolation levels"
+  "Weak isolation levels",
+  "Request routing in distributed systems"
 ]
