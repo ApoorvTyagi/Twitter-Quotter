@@ -17,5 +17,6 @@
   "Lambda vs Kappa architecture",
   "Stream processing concepts",
   "Weak isolation levels",
-  "Request routing in distributed systems"
+  "Request routing in distributed systems",
+  "Replication lag and consistency"
 ]
