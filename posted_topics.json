@@ -18,5 +18,6 @@
   "Stream processing concepts",
   "Weak isolation levels",
   "Request routing in distributed systems",
-  "Replication lag and consistency"
+  "Replication lag and consistency",
+  "Fault tolerance in stream processing"
 ]
