@@ -19,5 +19,6 @@
   "Weak isolation levels",
   "Request routing in distributed systems",
   "Replication lag and consistency",
-  "Fault tolerance in stream processing"
+  "Fault tolerance in stream processing",
+  "Read committed isolation"
 ]
