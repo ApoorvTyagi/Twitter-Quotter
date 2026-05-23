@@ -20,5 +20,6 @@
   "Request routing in distributed systems",
   "Replication lag and consistency",
   "Fault tolerance in stream processing",
-  "Read committed isolation"
+  "Read committed isolation",
+  "Leaderless replication and quorums"
 ]
