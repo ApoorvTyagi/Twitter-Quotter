@@ -21,5 +21,6 @@
   "Replication lag and consistency",
   "Fault tolerance in stream processing",
   "Read committed isolation",
-  "Leaderless replication and quorums"
+  "Leaderless replication and quorums",
+  "Reliability in distributed systems"
 ]
