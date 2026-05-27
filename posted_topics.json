@@ -22,5 +22,6 @@
   "Fault tolerance in stream processing",
   "Read committed isolation",
   "Leaderless replication and quorums",
-  "Reliability in distributed systems"
+  "Reliability in distributed systems",
+  "Distributed consensus algorithms"
 ]
