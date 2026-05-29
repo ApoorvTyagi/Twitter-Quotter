@@ -23,5 +23,6 @@
   "Read committed isolation",
   "Leaderless replication and quorums",
   "Reliability in distributed systems",
-  "Distributed consensus algorithms"
+  "Distributed consensus algorithms",
+  "B-trees vs LSM-trees trade-offs"
 ]
