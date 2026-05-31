@@ -24,5 +24,6 @@
   "Leaderless replication and quorums",
   "Reliability in distributed systems",
   "Distributed consensus algorithms",
-  "B-trees vs LSM-trees trade-offs"
+  "B-trees vs LSM-trees trade-offs",
+  "Message brokers and event logs"
 ]
