@@ -25,5 +25,6 @@
   "Reliability in distributed systems",
   "Distributed consensus algorithms",
   "B-trees vs LSM-trees trade-offs",
-  "Message brokers and event logs"
+  "Message brokers and event logs",
+  "Write skew and phantoms"
 ]
