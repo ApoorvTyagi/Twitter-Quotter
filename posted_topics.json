@@ -27,5 +27,6 @@
   "B-trees vs LSM-trees trade-offs",
   "Message brokers and event logs",
   "Write skew and phantoms",
-  "Transactions and ACID properties"
+  "Transactions and ACID properties",
+  "Leader-based replication"
 ]
