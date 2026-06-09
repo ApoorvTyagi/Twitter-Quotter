@@ -28,5 +28,6 @@
   "Message brokers and event logs",
   "Write skew and phantoms",
   "Transactions and ACID properties",
-  "Leader-based replication"
+  "Leader-based replication",
+  "Linearizability guarantees"
 ]
