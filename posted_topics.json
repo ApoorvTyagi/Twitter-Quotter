@@ -29,5 +29,6 @@
   "Write skew and phantoms",
   "Transactions and ACID properties",
   "Leader-based replication",
-  "Linearizability guarantees"
+  "Linearizability guarantees",
+  "CAP theorem explained"
 ]
