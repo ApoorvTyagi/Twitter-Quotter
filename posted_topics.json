@@ -30,5 +30,6 @@
   "Transactions and ACID properties",
   "Leader-based replication",
   "Linearizability guarantees",
-  "CAP theorem explained"
+  "CAP theorem explained",
+  "Serializable snapshot isolation"
 ]
