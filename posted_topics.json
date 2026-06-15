@@ -31,5 +31,6 @@
   "Leader-based replication",
   "Linearizability guarantees",
   "CAP theorem explained",
-  "Serializable snapshot isolation"
+  "Serializable snapshot isolation",
+  "Write-ahead logging (WAL)"
 ]
