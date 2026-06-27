@@ -2,5 +2,6 @@
   "Request routing in distributed systems",
   "Snapshot isolation and repeatable read",
   "Bloom filters in databases",
-  "Leaderless replication and quorums"
+  "Leaderless replication and quorums",
+  "Lambda vs Kappa architecture"
 ]
