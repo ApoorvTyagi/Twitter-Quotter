@@ -3,5 +3,6 @@
   "Snapshot isolation and repeatable read",
   "Bloom filters in databases",
   "Leaderless replication and quorums",
-  "Lambda vs Kappa architecture"
+  "Lambda vs Kappa architecture",
+  "Leader-based replication"
 ]
