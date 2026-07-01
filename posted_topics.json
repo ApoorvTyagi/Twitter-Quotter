@@ -4,5 +4,6 @@
   "Bloom filters in databases",
   "Leaderless replication and quorums",
   "Lambda vs Kappa architecture",
-  "Leader-based replication"
+  "Leader-based replication",
+  "Transactions and ACID properties"
 ]
