@@ -5,5 +5,6 @@
   "Leaderless replication and quorums",
   "Lambda vs Kappa architecture",
   "Leader-based replication",
-  "Transactions and ACID properties"
+  "Transactions and ACID properties",
+  "Two-phase locking"
 ]
