@@ -7,5 +7,6 @@
   "Leader-based replication",
   "Transactions and ACID properties",
   "Two-phase locking",
-  "Distributed consensus algorithms"
+  "Distributed consensus algorithms",
+  "Fault tolerance in stream processing"
 ]
