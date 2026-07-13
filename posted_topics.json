@@ -8,5 +8,6 @@
   "Transactions and ACID properties",
   "Two-phase locking",
   "Distributed consensus algorithms",
-  "Fault tolerance in stream processing"
+  "Fault tolerance in stream processing",
+  "Weak isolation levels"
 ]
