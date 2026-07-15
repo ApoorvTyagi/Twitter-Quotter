@@ -9,5 +9,6 @@
   "Two-phase locking",
   "Distributed consensus algorithms",
   "Fault tolerance in stream processing",
-  "Weak isolation levels"
+  "Weak isolation levels",
+  "Kafka and log-based message brokers"
 ]
