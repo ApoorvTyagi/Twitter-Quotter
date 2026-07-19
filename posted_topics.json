@@ -11,5 +11,6 @@
   "Fault tolerance in stream processing",
   "Weak isolation levels",
   "Kafka and log-based message brokers",
-  "Serializable snapshot isolation"
+  "Serializable snapshot isolation",
+  "Reliability in distributed systems"
 ]
