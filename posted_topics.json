@@ -12,5 +12,6 @@
   "Weak isolation levels",
   "Kafka and log-based message brokers",
   "Serializable snapshot isolation",
-  "Reliability in distributed systems"
+  "Reliability in distributed systems",
+  "Batch processing fundamentals"
 ]
