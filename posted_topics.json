@@ -13,5 +13,6 @@
   "Kafka and log-based message brokers",
   "Serializable snapshot isolation",
   "Reliability in distributed systems",
-  "Batch processing fundamentals"
+  "Batch processing fundamentals",
+  "Write skew and phantoms"
 ]
