@@ -14,5 +14,6 @@
   "Serializable snapshot isolation",
   "Reliability in distributed systems",
   "Batch processing fundamentals",
-  "Write skew and phantoms"
+  "Write skew and phantoms",
+  "Replication lag and consistency"
 ]
