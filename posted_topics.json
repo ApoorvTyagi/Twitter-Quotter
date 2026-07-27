@@ -15,5 +15,6 @@
   "Reliability in distributed systems",
   "Batch processing fundamentals",
   "Write skew and phantoms",
-  "Replication lag and consistency"
+  "Replication lag and consistency",
+  "Message brokers and event logs"
 ]
