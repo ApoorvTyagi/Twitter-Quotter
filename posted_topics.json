@@ -16,5 +16,6 @@
   "Batch processing fundamentals",
   "Write skew and phantoms",
   "Replication lag and consistency",
-  "Message brokers and event logs"
+  "Message brokers and event logs",
+  "Partitioning strategies"
 ]
