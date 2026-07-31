@@ -17,5 +17,6 @@
   "Write skew and phantoms",
   "Replication lag and consistency",
   "Message brokers and event logs",
-  "Partitioning strategies"
+  "Partitioning strategies",
+  "Scalability and performance metrics"
 ]
