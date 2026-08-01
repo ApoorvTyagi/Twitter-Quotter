@@ -18,5 +18,6 @@
   "Replication lag and consistency",
   "Message brokers and event logs",
   "Partitioning strategies",
-  "Scalability and performance metrics"
+  "Scalability and performance metrics",
+  "Write-ahead logging (WAL)"
 ]
