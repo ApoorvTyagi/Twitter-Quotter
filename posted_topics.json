@@ -19,5 +19,6 @@
   "Message brokers and event logs",
   "Partitioning strategies",
   "Scalability and performance metrics",
-  "Write-ahead logging (WAL)"
+  "Write-ahead logging (WAL)",
+  "Stream joins and windowing"
 ]
