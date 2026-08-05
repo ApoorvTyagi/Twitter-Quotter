@@ -20,5 +20,6 @@
   "Partitioning strategies",
   "Scalability and performance metrics",
   "Write-ahead logging (WAL)",
-  "Stream joins and windowing"
+  "Stream joins and windowing",
+  "Raft consensus algorithm"
 ]
