@@ -21,5 +21,6 @@
   "Scalability and performance metrics",
   "Write-ahead logging (WAL)",
   "Stream joins and windowing",
-  "Raft consensus algorithm"
+  "Raft consensus algorithm",
+  "Stream processing concepts"
 ]
