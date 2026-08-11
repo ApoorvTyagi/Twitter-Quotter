@@ -23,5 +23,6 @@
   "Stream joins and windowing",
   "Raft consensus algorithm",
   "Stream processing concepts",
-  "Multi-leader replication conflicts"
+  "Multi-leader replication conflicts",
+  "Linearizability guarantees"
 ]
