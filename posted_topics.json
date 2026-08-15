@@ -24,5 +24,6 @@
   "Raft consensus algorithm",
   "Stream processing concepts",
   "Multi-leader replication conflicts",
-  "Linearizability guarantees"
+  "Linearizability guarantees",
+  "Two-phase commit protocol"
 ]
