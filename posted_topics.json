@@ -25,5 +25,6 @@
   "Stream processing concepts",
   "Multi-leader replication conflicts",
   "Linearizability guarantees",
-  "Two-phase commit protocol"
+  "Two-phase commit protocol",
+  "MapReduce and distributed filesystems"
 ]
