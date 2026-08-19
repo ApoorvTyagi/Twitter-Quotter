@@ -26,5 +26,6 @@
   "Multi-leader replication conflicts",
   "Linearizability guarantees",
   "Two-phase commit protocol",
-  "MapReduce and distributed filesystems"
+  "MapReduce and distributed filesystems",
+  "Column-oriented storage"
 ]
