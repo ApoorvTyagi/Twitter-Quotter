@@ -27,5 +27,6 @@
   "Linearizability guarantees",
   "Two-phase commit protocol",
   "MapReduce and distributed filesystems",
-  "Column-oriented storage"
+  "Column-oriented storage",
+  "Read committed isolation"
 ]
