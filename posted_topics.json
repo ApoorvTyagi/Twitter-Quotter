@@ -28,5 +28,6 @@
   "Two-phase commit protocol",
   "MapReduce and distributed filesystems",
   "Column-oriented storage",
-  "Read committed isolation"
+  "Read committed isolation",
+  "B-trees vs LSM-trees trade-offs"
 ]
