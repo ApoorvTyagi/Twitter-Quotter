@@ -29,5 +29,6 @@
   "MapReduce and distributed filesystems",
   "Column-oriented storage",
   "Read committed isolation",
-  "B-trees vs LSM-trees trade-offs"
+  "B-trees vs LSM-trees trade-offs",
+  "CAP theorem explained"
 ]
