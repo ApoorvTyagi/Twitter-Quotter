@@ -30,5 +30,6 @@
   "Column-oriented storage",
   "Read committed isolation",
   "B-trees vs LSM-trees trade-offs",
-  "CAP theorem explained"
+  "CAP theorem explained",
+  "Serializability"
 ]
