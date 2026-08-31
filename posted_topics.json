@@ -31,5 +31,6 @@
   "Read committed isolation",
   "B-trees vs LSM-trees trade-offs",
   "CAP theorem explained",
-  "Serializability"
+  "Serializability",
+  "Hash indexes and SSTables"
 ]
