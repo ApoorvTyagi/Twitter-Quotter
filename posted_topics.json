@@ -1,3 +1,4 @@
 [
-  "Kafka and log-based message brokers"
+  "Kafka and log-based message brokers",
+  "Raft consensus algorithm"
 ]
