@@ -1,4 +1,5 @@
 [
   "Kafka and log-based message brokers",
-  "Raft consensus algorithm"
+  "Raft consensus algorithm",
+  "Reliability in distributed systems"
 ]
