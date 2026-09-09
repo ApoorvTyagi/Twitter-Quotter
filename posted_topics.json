@@ -1,5 +1,6 @@
 [
   "Kafka and log-based message brokers",
   "Raft consensus algorithm",
-  "Reliability in distributed systems"
+  "Reliability in distributed systems",
+  "Two-phase locking"
 ]
