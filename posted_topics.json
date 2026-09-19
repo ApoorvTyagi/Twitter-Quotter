@@ -2,5 +2,6 @@
   "Kafka and log-based message brokers",
   "Raft consensus algorithm",
   "Reliability in distributed systems",
-  "Two-phase locking"
+  "Two-phase locking",
+  "Bloom filters in databases"
 ]
