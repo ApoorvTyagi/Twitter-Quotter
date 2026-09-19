@@ -280,7 +280,7 @@ Return ONLY valid JSON array of tweet strings:
 
         try:
             response = openai.chat.completions.create(
-                model="gpt-4o-mini",
+                model="gpt-5.6-luna",
                 messages=[
                     {
                         "role": "system", 
