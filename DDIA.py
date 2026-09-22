@@ -288,7 +288,6 @@ Return ONLY valid JSON array of tweet strings:
                     },
                     {"role": "user", "content": prompt}
                 ],
-                temperature=0.7,
                 max_completion_tokens=1500
             )
             
@@ -358,7 +357,6 @@ Score < 6 means regenerate."""
                     {"role": "system", "content": "You are a strict technical content reviewer who values depth and precision over simplicity."},
                     {"role": "user", "content": validation_prompt}
                 ],
-                temperature=0.3,
                 max_completion_tokens=1500
             )
             
