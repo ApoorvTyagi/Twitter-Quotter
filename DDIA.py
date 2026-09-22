@@ -289,7 +289,7 @@ Return ONLY valid JSON array of tweet strings:
                     {"role": "user", "content": prompt}
                 ],
                 temperature=0.7,
-                max_tokens=1500
+                max_completion_tokens=1500
             )
             
             content = response.choices[0].message.content.strip()
@@ -353,13 +353,13 @@ Score < 6 means regenerate."""
 
         try:
             response = openai.chat.completions.create(
-                model="gpt-4o-mini",
+                model="gpt-5.6-luna",
                 messages=[
                     {"role": "system", "content": "You are a strict technical content reviewer who values depth and precision over simplicity."},
                     {"role": "user", "content": validation_prompt}
                 ],
                 temperature=0.3,
-                max_tokens=300
+                max_completion_tokens=1500
             )
             
             result = response.choices[0].message.content.strip()
