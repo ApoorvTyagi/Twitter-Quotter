@@ -4,5 +4,6 @@
   "Reliability in distributed systems",
   "Two-phase locking",
   "Bloom filters in databases",
-  "Write-ahead logging (WAL)"
+  "Write-ahead logging (WAL)",
+  "Stream joins and windowing"
 ]
