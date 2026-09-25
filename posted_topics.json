@@ -5,5 +5,6 @@
   "Two-phase locking",
   "Bloom filters in databases",
   "Write-ahead logging (WAL)",
-  "Stream joins and windowing"
+  "Stream joins and windowing",
+  "Request routing in distributed systems"
 ]
