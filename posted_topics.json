@@ -7,5 +7,6 @@
   "Write-ahead logging (WAL)",
   "Stream joins and windowing",
   "Request routing in distributed systems",
-  "Message brokers and event logs"
+  "Message brokers and event logs",
+  "Transactions and ACID properties"
 ]
