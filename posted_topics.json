@@ -9,5 +9,6 @@
   "Request routing in distributed systems",
   "Message brokers and event logs",
   "Transactions and ACID properties",
-  "Stream processing concepts"
+  "Stream processing concepts",
+  "Batch processing fundamentals"
 ]
