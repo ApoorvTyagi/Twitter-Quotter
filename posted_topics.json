@@ -3,5 +3,12 @@
   "Raft consensus algorithm",
   "Reliability in distributed systems",
   "Two-phase locking",
-  "Bloom filters in databases"
+  "Bloom filters in databases",
+  "Write-ahead logging (WAL)",
+  "Stream joins and windowing",
+  "Request routing in distributed systems",
+  "Message brokers and event logs",
+  "Transactions and ACID properties",
+  "Stream processing concepts",
+  "Batch processing fundamentals"
 ]
