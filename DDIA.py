@@ -1,11 +1,13 @@
-import tweepy
-import openai
-import time
-import schedule
-from datetime import datetime
+
 import json
-import random
 import os
+import random
+import time
+from datetime import datetime
+
+import openai
+import schedule
+import tweepy
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -17,18 +19,16 @@ TWITTER_ACCESS_TOKEN_SECRET = os.getenv("TWITTER_ACCESS_TOKEN_SECRET")
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
 
 MODEL_NAME = "gpt-5.6-luna"
-# Initialize OpenAI
+
 openai.api_key = OPENAI_API_KEY
 
 DDIA_TOPICS = {
-    # Simple concepts (2-3 tweets)
     "simple": [
         "Hash indexes and SSTables",
         "Column-oriented storage",
         "Write-ahead logging (WAL)",
         "Bloom filters in databases",
         "Request routing in distributed systems",
-        # Database Internals: storage fundamentals
         "Database pages and page layouts",
         "Slotted pages and variable-length records",
         "Heap files and record storage",
@@ -36,7 +36,6 @@ DDIA_TOPICS = {
         "Checksums and data corruption detection",
         "Binary search trees and B-trees",
     ],
-    # Medium concepts (4-5 tweets)
     "medium": [
         "Reliability in distributed systems",
         "Scalability and performance metrics",
@@ -51,7 +50,6 @@ DDIA_TOPICS = {
         "Stream processing concepts",
         "Batch processing fundamentals",
         "MapReduce and distributed filesystems",
-        # Database Internals: storage engines and execution
         "B+ tree page splits and rebalancing",
         "B+ trees vs B-trees in database indexes",
         "LSM-tree architecture and write path",
@@ -69,7 +67,6 @@ DDIA_TOPICS = {
         "External sorting in database systems",
         "Hash joins vs sort-merge joins",
     ],
-    # Complex concepts (6-8 tweets)
     "complex": [
         "Multi-leader replication conflicts",
         "Leaderless replication and quorums",
@@ -87,7 +84,6 @@ DDIA_TOPICS = {
         "Lambda vs Kappa architecture",
         "Stream joins and windowing",
         "Fault tolerance in stream processing",
-        # Database Internals: deep internals
         "MVCC implementation and version chains",
         "Lock managers and deadlock detection",
         "Optimistic vs pessimistic concurrency control",
@@ -112,463 +108,553 @@ DDIA_TOPICS = {
 
 class AISystemDesignBot:
     def __init__(self):
-        """Initialize the bot with Twitter and OpenAI clients"""
-        print("🔧 Initializing bot...")
-        # Validate credentials
-        if not all([TWITTER_API_KEY, TWITTER_API_SECRET, TWITTER_ACCESS_TOKEN,
-                   TWITTER_ACCESS_TOKEN_SECRET]):
-            raise ValueError("Missing Twitter API credentials in .env file")
+        """Initialize the Twitter and OpenAI clients."""
+        print("Initializing bot...")
+
+        twitter_credentials = [
+            TWITTER_API_KEY,
+            TWITTER_API_SECRET,
+            TWITTER_ACCESS_TOKEN,
+            TWITTER_ACCESS_TOKEN_SECRET,
+        ]
+
+        if not all(twitter_credentials):
+            raise ValueError(
+                "Missing Twitter API credentials in .env file"
+            )
+
         if not OPENAI_API_KEY:
             raise ValueError("Missing OpenAI API key in .env file")
-        # Initialize Twitter client
-        try:
-            self.twitter_client = tweepy.Client(
-                consumer_key=TWITTER_API_KEY,
-                consumer_secret=TWITTER_API_SECRET,
-                access_token=TWITTER_ACCESS_TOKEN,
-                access_token_secret=TWITTER_ACCESS_TOKEN_SECRET
-            )
-            # Cloudflare blocks this endpoint intermittently from CI IPs.
-            if not os.getenv("GITHUB_ACTIONS"):
-                me = self.twitter_client.get_me()
-                print(f"✅ Authenticated as: @{me.data.username}")
-            else:
-                print("ℹ️ GitHub Actions detected — skipping get_me() to avoid Cloudflare 403")
-        except tweepy.errors.Forbidden as e:
-            print(f"❌ 403 Forbidden Error: {e}")
-            print(f"📄 Response Text: {e.response.text if hasattr(e, 'response') else 'No response'}")
-            print(f"📊 Response Status: {e.response.status_code if hasattr(e, 'response') else 'N/A'}")
-            print(f"🔍 Response Headers: {dict(e.response.headers) if hasattr(e, 'response') else 'N/A'}")
+
+        self.twitter_client = tweepy.Client(
+            consumer_key=TWITTER_API_KEY,
+            consumer_secret=TWITTER_API_SECRET,
+            access_token=TWITTER_ACCESS_TOKEN,
+            access_token_secret=TWITTER_ACCESS_TOKEN_SECRET,
+        )
+
+        # GitHub Actions may encounter Cloudflare 403 errors on get_me().
+        if not os.getenv("GITHUB_ACTIONS"):
             try:
-                print(f"📋 Response JSON: {e.response.json()}")
-            except:
-                pass
-            raise
-        except tweepy.errors.TooManyRequests as e:
-            print(f"❌ 429 Rate Limit Error: {e}")
-            print(f"📄 Response Text: {e.response.text if hasattr(e, 'response') else 'No response'}")
-            print(f"⏰ Rate limit will reset at: {e.response.headers.get('x-rate-limit-reset', 'Unknown') if hasattr(e, 'response') else 'N/A'}")
-            raise
-        except tweepy.errors.Unauthorized as e:
-            print(f"❌ 401 Unauthorized Error: {e}")
-            print(f"📄 Response Text: {e.response.text if hasattr(e, 'response') else 'No response'}")
-            print(f"🔑 Check your API credentials!")
-            raise
-        except tweepy.errors.TwitterServerError as e:
-            print(f"❌ Twitter Server Error: {e}")
-            print(f"📄 Response: {e.response.text if hasattr(e, 'response') else 'No response'}")
-            raise
-        except Exception as e:
-            print(f"❌ Unexpected Error: {type(e).__name__}: {e}")
-            print(f"📄 Response Text: {e.response.text if hasattr(e, 'response') else 'No response'}")
-            print(f"📊 Full error details: {repr(e)}")
-            if hasattr(e, '__dict__'):
-                print(f"🔍 Error attributes: {e.__dict__}")
-            raise
+                me = self.twitter_client.get_me()
+
+                if me.data:
+                    print(f"Authenticated as: @{me.data.username}")
+                else:
+                    print("Warning: Twitter returned no user data.")
+
+            except tweepy.errors.TweepyException as exc:
+                print(f"Twitter authentication check failed: {exc}")
+                raise
+        else:
+            print(
+                "GitHub Actions detected. "
+                "Skipping get_me() to avoid intermittent Cloudflare 403."
+            )
+
         self.posted_topics = self.load_posted_topics()
-        print(f"📊 Previously posted topics: {len(self.posted_topics)}")
+        print(f"Previously posted topics: {len(self.posted_topics)}")
+
     def load_posted_topics(self):
-        """Load previously posted topics from file"""
+        """Load previously posted topics from JSON."""
         try:
-            with open('posted_topics.json', 'r') as f:
-                return json.load(f)
+            with open("posted_topics.json", "r", encoding="utf-8") as file:
+                topics = json.load(file)
+
+            if not isinstance(topics, list):
+                print("Warning: posted_topics.json is not a list.")
+                return []
+
+            return topics
+
         except FileNotFoundError:
             return []
+
+        except json.JSONDecodeError as exc:
+            print(f"Warning: Invalid posted_topics.json: {exc}")
+            return []
+
     def save_posted_topics(self):
-        """Save posted topics to file"""
-        with open('posted_topics.json', 'w') as f:
-            json.dump(self.posted_topics, f, indent=2)
+        """Persist successfully posted topics."""
+        with open("posted_topics.json", "w", encoding="utf-8") as file:
+            json.dump(self.posted_topics, file, indent=2)
+
     def get_topic_complexity(self, topic):
-        """Determine complexity level of topic"""
+        """Return the configured complexity of a topic."""
         for complexity, topics in DDIA_TOPICS.items():
             if topic in topics:
                 return complexity
-        return "medium"  # default
+
+        return "medium"
+
     def split_long_tweet(self, tweet_text, max_length=280):
-        """Split a long tweet into multiple tweets at natural break points"""
-        if len(tweet_text) <= max_length:
-            return [tweet_text]
-        # Try to split at sentence boundaries first
-        sentences = tweet_text.replace('. ', '.|').replace('! ', '!|').replace('? ', '?|').split('|')
+        """Split text into tweets without exceeding the character limit."""
+        words = tweet_text.split()
         result = []
-        current_tweet = ""
-        for sentence in sentences:
-            sentence = sentence.strip()
-            if not sentence:
-                continue
-            # If adding this sentence would exceed limit
-            if len(current_tweet) + len(sentence) + 1 > max_length:
-                if current_tweet:
-                    result.append(current_tweet.strip())
-                    current_tweet = sentence
-                else:
-                    # Single sentence too long, split by words
-                    words = sentence.split()
-                    for word in words:
-                        if len(current_tweet) + len(word) + 1 > max_length:
-                            if current_tweet:
-                                result.append(current_tweet.strip() + "...")
-                                current_tweet = "..." + word
-                            else:
-                                # Single word too long (rare), just truncate
-                                result.append(word[:max_length-3] + "...")
-                        else:
-                            current_tweet += " " + word if current_tweet else word
+        current = ""
+
+        for word in words:
+            while len(word) > max_length:
+                if current:
+                    result.append(current)
+                    current = ""
+
+                result.append(word[:max_length])
+                word = word[max_length:]
+
+            candidate = f"{current} {word}".strip()
+
+            if len(candidate) <= max_length:
+                current = candidate
             else:
-                current_tweet += " " + sentence if current_tweet else sentence
-        if current_tweet:
-            result.append(current_tweet.strip())
+                if current:
+                    result.append(current)
+
+                current = word
+
+        if current:
+            result.append(current)
+
         return result
-    def check_rate_limits(self, response):
-        """Extract and display rate limit information from response"""
-        try:
-            # Twitter API v2 returns rate limit info in response metadata
-            # For Client.create_tweet, we don't get direct header access
-            # But we can catch rate limit exceptions
-            print(f"📊 Rate limit check: Tweet posted successfully")
-            return True
-        except Exception as e:
-            print(f"⚠️ Could not check rate limits: {e}")
-            return False
+
     def _extract_json_content(self, response, context_label):
-        """
-        Safely pull text content out of a chat completion response.
-        Returns the cleaned string, or None (with diagnostics printed)
-        if the model returned nothing usable — e.g. because it burned
-        its whole token budget on internal reasoning before emitting
-        any visible output.
-        """
+        """Extract generated text and remove optional Markdown fences."""
+        if not response.choices:
+            print(f"No response choices returned during {context_label}.")
+            return None
+
         choice = response.choices[0]
         content = (choice.message.content or "").strip()
+
         if not content:
-            print(f"⚠️ Empty response from model during {context_label}.")
-            print(f"   finish_reason: {getattr(choice, 'finish_reason', 'unknown')}")
-            if hasattr(response, "usage"):
-                print(f"   usage: {response.usage}")
-            print("   This usually means max_completion_tokens was too low for the "
-                  "model's internal reasoning + the requested output — try raising it.")
+            print(f"Empty model response during {context_label}.")
+            print(f"Finish reason: {choice.finish_reason}")
+
+            if response.usage:
+                print(f"Token usage: {response.usage}")
+
             return None
-        # Remove markdown code fences if present
-        if content.startswith("```json"):
-            content = content.replace("```json", "").replace("```", "").strip()
-        elif content.startswith("```"):
-            content = content.replace("```", "").strip()
+
+        if content.startswith("```"):
+            lines = content.splitlines()
+
+            if lines and lines[0].startswith("```"):
+                lines = lines[1:]
+
+            if lines and lines[-1].strip() == "```":
+                lines = lines[:-1]
+
+            content = "\n".join(lines).strip()
+
         return content
+
     def generate_comprehensive_thread(self, topic, complexity):
-        """Generate a comprehensive thread optimized for system design interviews"""
-        # Set thread length based on complexity
+        """Generate an interview-focused thread about the selected topic."""
         thread_lengths = {
             "simple": "3-5",
             "medium": "6-10",
-            "complex": "11-15"
+            "complex": "11-15",
         }
+
         target_length = thread_lengths.get(complexity, "5-7")
-        # Check if this is a repeated topic to add novelty
         cycle_number = self.posted_topics.count(topic) + 1
+
         novelty_instruction = ""
+
         if cycle_number > 1:
-            novelty_instruction = f"\nNOTE: This is cycle {cycle_number} for this topic. Bring FRESH perspective: different examples, alternative angles, or deeper technical details than typical explanations."
-        prompt = f"""You are a system design interview coach and expert on "Designing Data-Intensive Applications" by Martin Kleppmann and "Database Internals" by Alex Petrov.
-Create a comprehensive Twitter thread about: "{topic}"{novelty_instruction}
-This thread is for engineers preparing for system design and backend interviews. Make it interview-focused and GO DEEP into concepts and trade-offs.
-The topic may come from DDIA or Database Internals. Match the depth and terminology to the topic. For database internals topics, explain what is happening inside the database engine, including data structures, page layouts, memory behavior, disk I/O, algorithms, concurrency, recovery, and performance implications when relevant.
-THREAD STRUCTURE ({target_length} tweets):
-Tweet 1 (Hook):
-- Start with a relatable problem or real production scenario
-- Why this concept matters in actual distributed systems
-- Use an emoji to grab attention
-- NO hashtags here
-Tweet 2-3 (Core Concept - GO DEEP):
-- Explain the fundamental mechanism
-- Don't just describe WHAT it is, explain HOW it actually works under the hood
-- Use technical precision while remaining clear
-- NO hashtags
-Tweet 4-6 (Technical Deep Dive - THIS IS CRITICAL):
-- Implementation details and internal mechanisms
-- Include concrete examples with numbers/metrics
-- Show the actual algorithms or data structures involved
-- Memory/CPU/Network implications
-- NO hashtags
-Tweet 7+ (Trade-offs Analysis - INTERVIEW GOLD):
-- DETAILED trade-offs (what exact use case will this solve and what are we losing?)
-- When to use vs when NOT to use (be specific about scenarios)
-- Real production examples: "Big tech company does X because Y, but another tech company does Z because W"
-- Performance characteristics (Big O, throughput, latency numbers), If appliacable
-- Failure modes and edge cases
-- Common mistakes that cause production incidents
-- NO hashtags
-Final Tweet:
-- Powerful key takeaway or interview insight
-- ONLY in this tweet add: #SystemDesign and no other hashtags
-VOICE AND STYLE:
-- Sound like a sharp, experienced engineer explaining something interesting to another engineer, not like a textbook or AI-generated lecture.
-- Be creative with hooks, analogies, surprising observations, practical questions, and production stories. Avoid repeating the same thread structure or opening style every time.
-- Prefer natural, conversational language. It is okay to say things like "Here is the interesting part", "This is where it gets tricky", or "The catch?" when they genuinely fit.
-- Vary sentence length and rhythm. Do not make every tweet follow the same formula.
-- Avoid generic filler such as "In today's digital world", "Let's dive in", "It's important to understand", or "In conclusion".
-- Do not overuse emojis. Use them only when they add personality or emphasis.
-- NEVER use em dashes (—). Use commas, parentheses, colons, or regular hyphens instead.
-- Do not sound overly polished or corporate. Prioritize clarity, personality, and technical substance.
-- Do not invent specific company practices, benchmark numbers, or production incidents. If a real-world example is used, keep it accurate and appropriately qualified.
-CRITICAL REQUIREMENTS:
-- Each tweet MUST be less than or equal to 280 characters
-- Go DEEP on technical details and trade-offs (this is not for beginners)
-- Include specific metrics, algorithms, or quantifiable trade-offs
-- Focus heavily on WHY certain decisions are made
-- Explain the COST of trade-offs (what you lose when you choose X)
-- Use real company examples with specifics
-- Make every tweet dense with information
-- Use emojis strategically (1-2 per tweet max)
-- ONLY add #SystemDesign to the final tweet, NO hashtags in other tweets
-- NEVER use the em dash character (—) anywhere in the thread
-Return ONLY valid JSON array of tweet strings:
-["tweet1", "tweet2", "tweet3", ...]"""
+            novelty_instruction = (
+                f"\nThis is cycle {cycle_number} for this topic. "
+                "Use a fresh perspective, different examples, or deeper "
+                "technical details than previous explanations."
+            )
+
+        prompt = f"""
+You are an experienced system design interview coach and database engineer
+with deep knowledge of "Designing Data-Intensive Applications" by
+Martin Kleppmann and "Database Internals" by Alex Petrov.
+
+Create a comprehensive Twitter thread about: "{topic}"
+{novelty_instruction}
+
+The audience consists of engineers preparing for backend and system
+design interviews. Prioritize technical depth, implementation details,
+and practical trade-offs.
+
+For database internals, explain relevant data structures, page layouts,
+memory behavior, disk I/O, algorithms, concurrency, recovery, and
+performance implications.
+
+THREAD LENGTH: {target_length} tweets.
+
+STRUCTURE:
+
+1. Hook:
+   Start with an interesting production problem or relatable scenario.
+   Explain why the concept matters. An emoji is optional.
+   No hashtags.
+
+2. Core concept:
+   Explain what happens under the hood, not just what the concept means.
+   Maintain technical precision.
+
+3. Technical deep dive:
+   Include relevant algorithms, data structures, concrete examples,
+   complexity analysis, and CPU, memory, disk, or network implications.
+
+4. Trade-offs:
+   Explain when to use the approach and when not to.
+   Discuss failure modes, operational costs, edge cases, and common
+   production mistakes.
+
+5. Final tweet:
+   End with a strong technical takeaway or interview insight.
+   Include #SystemDesign in the final tweet only.
+
+VOICE:
+- Sound like an experienced engineer talking to another engineer.
+- Use natural language, varied sentence structure, and creative hooks.
+- Avoid generic AI-sounding filler and repetitive templates.
+- Never use em dashes. Use commas, colons, parentheses, or hyphens.
+- Do not invent company practices, incidents, or benchmark numbers.
+- Use real company examples only when the details are accurate.
+- Include specific numbers only when technically justified.
+- Keep the content useful, original, and technically substantive.
+
+REQUIREMENTS:
+- Return only a valid JSON array of strings.
+- Every tweet must be at most 280 characters.
+- Do not include hashtags except #SystemDesign in the final tweet.
+- Do not use em dashes anywhere.
+- Do not add commentary outside the JSON array.
+
+Example format:
+["First tweet", "Second tweet", "Final takeaway #SystemDesign"]
+"""
+
         try:
             response = openai.chat.completions.create(
                 model=MODEL_NAME,
                 messages=[
                     {
                         "role": "system",
-                        "content": "You are an expert system design interviewer and database engineer/educator. You know DDIA and Database Internals deeply. Explain concepts with technical precision while sounding like a thoughtful, experienced engineer talking to another engineer. Prioritize interesting insights, concrete mental models, trade-offs, and real-world applicability. Avoid generic AI-sounding phrasing. Never use em dashes (—)."
+                        "content": (
+                            "You are an expert system design interviewer "
+                            "and database engineer. Explain technical "
+                            "concepts precisely and naturally. Prioritize "
+                            "useful insights, implementation details, and "
+                            "real-world trade-offs. Never use em dashes."
+                        ),
                     },
-                    {"role": "user", "content": prompt}
+                    {"role": "user", "content": prompt},
                 ],
-                # Reasoning-capable models spend part of this budget on internal
-                # "thinking" tokens before any visible output appears. For an
-                # 11-15 tweet "complex" thread, 1500 was frequently getting
-                # consumed entirely by reasoning, leaving an empty message and
-                # a JSONDecodeError downstream. Give it real headroom.
-                max_completion_tokens=6000
+                max_completion_tokens=6000,
             )
-            content = self._extract_json_content(response, context_label=f"thread generation ({topic})")
+
+            content = self._extract_json_content(
+                response,
+                context_label=f"thread generation ({topic})",
+            )
+
             if content is None:
                 return None
-            # Parse JSON
+
             try:
                 tweets = json.loads(content)
-            except json.JSONDecodeError as e:
-                print(f"❌ JSON parsing error: {e}")
-                print(f"Raw response: {content[:200]}...")
+            except json.JSONDecodeError as exc:
+                print(f"JSON parsing error: {exc}")
+                print(f"Raw response: {content[:500]}")
                 return None
-            # Validate and auto-split tweets if needed
-            validated_tweets = []
-            for i, tweet in enumerate(tweets):
-                if len(tweet) > 280:
-                    print(f"⚠️ Tweet {i+1} too long ({len(tweet)} chars), auto-splitting...")
-                    split_tweets = self.split_long_tweet(tweet, max_length=280)
-                    print(f"   Split into {len(split_tweets)} tweets")
-                    validated_tweets.extend(split_tweets)
+
+            if (
+                not isinstance(tweets, list)
+                or not tweets
+                or not all(isinstance(tweet, str) for tweet in tweets)
+            ):
+                print("The model did not return a non-empty array of strings.")
+                return None
+
+            # Split oversized tweets and reserve room for the first-tweet prefix.
+            prepared_tweets = []
+
+            for index, tweet in enumerate(tweets):
+                max_length = 272 if index == 0 else 280
+
+                if len(tweet) > max_length:
+                    print(
+                        f"Tweet {index + 1} is too long "
+                        f"({len(tweet)} characters). Splitting it."
+                    )
+
+                    prepared_tweets.extend(
+                        self.split_long_tweet(tweet, max_length)
+                    )
                 else:
-                    validated_tweets.append(tweet)
-            return validated_tweets
-        except Exception as e:
-            print(f"❌ Error generating thread: {str(e)}")
+                    prepared_tweets.append(tweet)
+
+            # Keep the hashtag on the actual final tweet after splitting.
+            if not prepared_tweets[-1].strip():
+                print("The generated final tweet is empty.")
+                return None
+
+            return prepared_tweets
+
+        except Exception as exc:
+            print(f"Error generating thread: {exc}")
             return None
+
     def post_thread(self, tweets):
-        """Post a Twitter thread with rate limit handling and tracking"""
+        """Post a thread with rate-limit handling and retry attempts."""
         posted_ids = []
-        try:
-            previous_tweet_id = None
-            # Determine delay based on environment
-            delay_seconds = 60 if os.getenv("GITHUB_ACTIONS") else 5
-            print(f"\n📊 Rate Limit Status:")
-            print(f"   Starting thread with {len(tweets)} tweets")
-            print(f"   Delay between tweets: {delay_seconds} seconds")
-            for i, tweet_text in enumerate(tweets):
-                # Add thread numbering to first tweet
-                if i == 0:
-                    tweet_text = f"Thread: {tweet_text}"
+        previous_tweet_id = None
+
+        delay_seconds = 60 if os.getenv("GITHUB_ACTIONS") else 5
+
+        print("\nPosting thread")
+        print(f"Tweets: {len(tweets)}")
+        print(f"Delay between tweets: {delay_seconds} seconds")
+
+        for index, original_text in enumerate(tweets):
+            tweet_text = original_text
+
+            if index == 0:
+                tweet_text = f"Thread: {tweet_text}"
+
+            try:
+                if previous_tweet_id:
+                    response = self.twitter_client.create_tweet(
+                        text=tweet_text,
+                        in_reply_to_tweet_id=previous_tweet_id,
+                    )
+                else:
+                    response = self.twitter_client.create_tweet(
+                        text=tweet_text
+                    )
+
+                if not response.data or not response.data.get("id"):
+                    raise RuntimeError(
+                        f"Twitter returned no tweet ID for tweet {index + 1}."
+                    )
+
+                previous_tweet_id = response.data["id"]
+                posted_ids.append(previous_tweet_id)
+
+                print(
+                    f"Tweet {index + 1}/{len(tweets)} posted. "
+                    f"ID: {previous_tweet_id}"
+                )
+
+            except tweepy.errors.TooManyRequests as exc:
+                print(f"Rate limit hit on tweet {index + 1}: {exc}")
+
+                reset_time = None
+
+                if getattr(exc, "response", None) is not None:
+                    reset_time = exc.response.headers.get(
+                        "x-rate-limit-reset"
+                    )
+
+                if reset_time:
+                    wait_seconds = max(
+                        1, int(reset_time) - int(time.time()) + 1
+                    )
+                else:
+                    wait_seconds = 60
+
+                print(f"Waiting {wait_seconds} seconds before retry.")
+                time.sleep(wait_seconds)
+
                 try:
                     if previous_tweet_id:
                         response = self.twitter_client.create_tweet(
                             text=tweet_text,
-                            in_reply_to_tweet_id=previous_tweet_id
+                            in_reply_to_tweet_id=previous_tweet_id,
                         )
                     else:
-                        response = self.twitter_client.create_tweet(text=tweet_text)
-                    previous_tweet_id = response.data['id']
+                        response = self.twitter_client.create_tweet(
+                            text=tweet_text
+                        )
+
+                    if not response.data or not response.data.get("id"):
+                        raise RuntimeError("Twitter returned no tweet ID.")
+
+                    previous_tweet_id = response.data["id"]
                     posted_ids.append(previous_tweet_id)
-                    print(f"✅ Thread tweet {i+1}/{len(tweets)} posted! (ID: {previous_tweet_id})")
-                    # Try to extract rate limit info (Twitter API v2 Client doesn't expose headers directly)
-                    # We'll track it manually based on successful posts
-                    remaining_in_thread = len(tweets) - (i + 1)
-                    if remaining_in_thread > 0:
-                        print(f"   📉 Tweets remaining in thread: {remaining_in_thread}")
-                    # Delay between tweets to avoid rate limits
-                    if i < len(tweets) - 1:
-                        env_name = "GitHub Actions" if os.getenv("GITHUB_ACTIONS") else "Local"
-                        print(f"⏳ Waiting {delay_seconds} seconds before next tweet ({env_name} mode)...")
-                        time.sleep(delay_seconds)
-                except tweepy.TooManyRequests as e:
-                    # Extract rate limit info from error if available
-                    print(f"⚠️ Rate limit hit on tweet {i+1}!")
-                    print(f"   Error details: {str(e)}")
-                    # Check if we can get reset time
-                    try:
-                        if hasattr(e, 'response') and e.response is not None:
-                            headers = e.response.headers
-                            reset_time = headers.get('x-rate-limit-reset', 'Unknown')
-                            remaining = headers.get('x-rate-limit-remaining', 'Unknown')
-                            limit = headers.get('x-rate-limit-limit', 'Unknown')
-                            print(f"   📊 Rate Limit Info:")
-                            print(f"      Limit: {limit}")
-                            print(f"      Remaining: {remaining}")
-                            print(f"      Reset at: {reset_time}")
-                            if reset_time != 'Unknown':
-                                reset_datetime = datetime.fromtimestamp(int(reset_time))
-                                print(f"      Reset time: {reset_datetime.strftime('%Y-%m-%d %H:%M:%S')}")
-                    except Exception as parse_error:
-                        print(f"   Could not parse rate limit headers: {parse_error}")
-                    print(f"   Waiting 1 minute before retry...")
-                    time.sleep(60)
-                    # Retry once
-                    try:
-                        if previous_tweet_id:
-                            response = self.twitter_client.create_tweet(
-                                text=tweet_text,
-                                in_reply_to_tweet_id=previous_tweet_id
-                            )
-                        else:
-                            response = self.twitter_client.create_tweet(text=tweet_text)
-                        previous_tweet_id = response.data['id']
-                        posted_ids.append(previous_tweet_id)
-                        print(f"✅ Thread tweet {i+1}/{len(tweets)} posted (after retry)!")
-                        if i < len(tweets) - 1:
-                            print(f"⏳ Waiting {delay_seconds} seconds before next tweet...")
-                            time.sleep(delay_seconds)
-                    except tweepy.TooManyRequests as retry_error:
-                        print(f"❌ Still rate limited after retry!")
-                        print(f"   Waiting 1 minute before final attempt...")
-                        time.sleep(60)
-                        # Final retry
-                        if previous_tweet_id:
-                            response = self.twitter_client.create_tweet(
-                                text=tweet_text,
-                                in_reply_to_tweet_id=previous_tweet_id
-                            )
-                        else:
-                            response = self.twitter_client.create_tweet(text=tweet_text)
-                        previous_tweet_id = response.data['id']
-                        posted_ids.append(previous_tweet_id)
-                        print(f"✅ Thread tweet {i+1}/{len(tweets)} posted (after final retry)!")
-                    except Exception as retry_error:
-                        print(f"❌ Failed to post tweet {i+1} even after retries: {retry_error}")
-                        print(f"   Posted {i}/{len(tweets)} tweets successfully")
-                        print(f"   Thread URL: https://twitter.com/user/status/{posted_ids[0]}")
-                        raise
-            print(f"\n✅ Thread complete! Posted {len(posted_ids)} tweets")
-            return posted_ids
-        except Exception as e:
-            print(f"❌ Error posting thread: {str(e)}")
-            if posted_ids:
-                print(f"   Partial thread posted: {len(posted_ids)} tweets")
-                print(f"   Thread URL: https://twitter.com/user/status/{posted_ids[0]}")
-            return posted_ids if posted_ids else None
+
+                    print(
+                        f"Tweet {index + 1}/{len(tweets)} posted after retry."
+                    )
+
+                except Exception as retry_error:
+                    print(
+                        f"Retry failed for tweet {index + 1}: {retry_error}"
+                    )
+                    print(
+                        f"Successfully posted {len(posted_ids)} "
+                        f"of {len(tweets)} tweets."
+                    )
+
+                    if posted_ids:
+                        print(
+                            "Thread URL: "
+                            f"https://twitter.com/i/web/status/{posted_ids[0]}"
+                        )
+
+                    return posted_ids or None
+
+            except Exception as exc:
+                print(f"Failed to post tweet {index + 1}: {exc}")
+                print(
+                    f"Successfully posted {len(posted_ids)} "
+                    f"of {len(tweets)} tweets."
+                )
+
+                if posted_ids:
+                    print(
+                        "Thread URL: "
+                        f"https://twitter.com/i/web/status/{posted_ids[0]}"
+                    )
+
+                return posted_ids or None
+
+            if index < len(tweets) - 1:
+                print(f"Waiting {delay_seconds} seconds before next tweet.")
+                time.sleep(delay_seconds)
+
+        print(f"\nThread complete. Posted {len(posted_ids)} tweets.")
+
+        return posted_ids or None
+
     def create_and_post(self):
-        """Main method to generate and post content"""
+        """Select a topic, generate a thread, and publish it."""
         try:
-            # Get all topics
-            all_topics = []
-            for complexity, topics in DDIA_TOPICS.items():
-                all_topics.extend(topics)
-            # Check if all topics used - clear and restart with novelty
+            all_topics = [
+                topic
+                for topics in DDIA_TOPICS.values()
+                for topic in topics
+            ]
+
             if len(self.posted_topics) >= len(all_topics):
-                print("\n" + "=" * 70)
-                print("🔄 ALL TOPICS COVERED! Starting fresh cycle with NEW perspectives")
-                print("=" * 70)
-                # Clear the posted topics file to allow re-posting with novelty
+                print("\nAll topics covered. Starting a new cycle.")
+
                 self.posted_topics = []
                 self.save_posted_topics()
-                print("✅ Posted topics cleared. Next threads will bring fresh angles!\n")
-            # Select random unused topic
-            available_topics = [t for t in all_topics if t not in self.posted_topics]
+
+            available_topics = [
+                topic
+                for topic in all_topics
+                if topic not in self.posted_topics
+            ]
+
+            if not available_topics:
+                print("No unused topics available.")
+                return False
+
             topic = random.choice(available_topics)
             complexity = self.get_topic_complexity(topic)
-            # Check cycle number for this specific topic
-            cycle_info = ""
-            if topic in self.posted_topics:
-                cycle_num = self.posted_topics.count(topic) + 1
-                cycle_info = f" (Cycle {cycle_num} - Fresh perspective!)"
-            print(f"\n📚 Selected topic: {topic}{cycle_info}")
-            print(f"📊 Complexity: {complexity.upper()}")
-            print(f"⏳ Generating comprehensive thread with AI...")
-            # Generate thread
-            tweets = self.generate_comprehensive_thread(topic, complexity)
+
+            print(f"\nSelected topic: {topic}")
+            print(f"Complexity: {complexity.upper()}")
+            print("Generating thread...")
+
+            tweets = self.generate_comprehensive_thread(
+                topic,
+                complexity,
+            )
+
             if not tweets:
-                print("❌ Failed to generate thread")
+                print("Failed to generate thread.")
                 return False
-            print(f"\n📝 Generated thread ({len(tweets)} tweets):")
+
+            print(f"\nGenerated thread ({len(tweets)} tweets)")
             print("=" * 70)
-            for i, tweet in enumerate(tweets):
-                # Show hashtag indicator
-                has_hashtag = "#SystemDesign" in tweet
-                hashtag_indicator = " [#️⃣ HAS HASHTAG]" if has_hashtag else ""
-                print(f"\n[Tweet {i+1}/{len(tweets)}] ({len(tweet)} chars){hashtag_indicator}")
+
+            for index, tweet in enumerate(tweets, start=1):
+                print(f"\n[Tweet {index}/{len(tweets)}] ({len(tweet)} chars)")
                 print(tweet)
                 print("-" * 70)
-            # Validate quality
-            print("\n🔍 Validating thread quality...")
-            validation = self.validate_thread_quality(tweets, topic)
-            print(f"📈 Quality Score: {validation['score']}/10")
-            print(f"💬 Feedback: {validation.get('feedback', 'N/A')}")
-            if not validation.get('is_good', True):
-                print("⚠️ Thread quality below threshold. Regenerating...")
-                return False
-            # Post thread
-            print(f"\n🚀 Posting thread to Twitter...")
+
+            # Quality scoring and validation have been removed.
+            print("\nPosting thread to Twitter...")
+
             posted_ids = self.post_thread(tweets)
-            if posted_ids:
-                self.posted_topics.append(topic)
-                self.save_posted_topics()
-                print(f"\n✨ Success!")
-                print(f"🔗 Thread URL: https://twitter.com/user/status/{posted_ids[0]}")
-                print(f"📊 Progress: {len(self.posted_topics)}/{len(all_topics)} topics covered")
-                print(f"🕐 Time: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
-                print("=" * 70)
-                return True
-            return False
-        except Exception as e:
-            print(f"❌ Unexpected error: {str(e)}")
+
+            if not posted_ids:
+                print("Failed to post thread.")
+                return False
+
+            # Record the topic only after the posting attempt returns IDs.
+            # A partial thread is still recorded to avoid duplicate attempts.
+            self.posted_topics.append(topic)
+            self.save_posted_topics()
+
+            print("\nSuccess!")
+            print(
+                "Thread URL: "
+                f"https://twitter.com/i/web/status/{posted_ids[0]}"
+            )
+            print(
+                f"Progress: {len(self.posted_topics)}/{len(all_topics)} "
+                "topics covered"
+            )
+            print(f"Time: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
+            print("=" * 70)
+
+            return True
+
+        except Exception as exc:
+            print(f"Unexpected error: {exc}")
+
             import traceback
             traceback.print_exc()
+
             return False
+
     def start_scheduled_posting(self, interval_hours=12):
-        """Start automatic posting at regular intervals"""
+        """Run the bot immediately and then at regular intervals."""
+        total_topics = sum(
+            len(topics) for topics in DDIA_TOPICS.values()
+        )
+
         print("=" * 70)
-        print("🤖 AI-Powered DDIA System Design Bot Started!")
+        print("AI-Powered DDIA System Design Bot Started")
         print("=" * 70)
-        print(f"📅 Posting every {interval_hours} hours")
-        print(f"📚 Total topics: {sum(len(topics) for topics in DDIA_TOPICS.values())}")
-        print(f"🎯 Format: Comprehensive threads (2-8 tweets)")
-        print(f"🧠 AI Model: {MODEL_NAME} with validation")
-        print(f"💼 Focus: System design interview preparation")
+        print(f"Posting every {interval_hours} hours")
+        print(f"Total topics: {total_topics}")
+        print("Focus: System design and database internals")
+        print(f"Model: {MODEL_NAME}")
         print("=" * 70)
-        # Post immediately on start
+
         self.create_and_post()
-        # Schedule regular posts
+
         schedule.every(interval_hours).hours.do(self.create_and_post)
-        # Keep running
-        print("\n⏰ Bot is running. Press Ctrl+C to stop.\n")
+
+        print("\nBot is running. Press Ctrl+C to stop.")
+
         try:
             while True:
                 schedule.run_pending()
                 time.sleep(60)
+
         except KeyboardInterrupt:
-            print("\n\n👋 Bot stopped by user")
+            print("\nBot stopped by user.")
 
 
 def main():
-    """Main entry point"""
+    """Start the bot in scheduled or GitHub Actions mode."""
     try:
         bot = AISystemDesignBot()
+
         if os.getenv("GITHUB_ACTIONS"):
             bot.create_and_post()
         else:
-            # Running locally
             bot.start_scheduled_posting(interval_hours=12)
-    except Exception as e:
-        print(f"❌ Failed to start bot: {e}")
+
+    except Exception as exc:
+        print(f"Failed to start bot: {exc}")
+
         import traceback
         traceback.print_exc()
+
+
 if __name__ == "__main__":
     main()
