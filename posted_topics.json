@@ -11,5 +11,6 @@
   "Transactions and ACID properties",
   "Stream processing concepts",
   "Batch processing fundamentals",
-  "Compaction strategies in LSM-trees"
+  "Compaction strategies in LSM-trees",
+  "Hash joins vs sort-merge joins"
 ]
