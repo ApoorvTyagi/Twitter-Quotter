@@ -12,5 +12,6 @@
   "Stream processing concepts",
   "Batch processing fundamentals",
   "Compaction strategies in LSM-trees",
-  "Hash joins vs sort-merge joins"
+  "Hash joins vs sort-merge joins",
+  "Volcano iterator model"
 ]
