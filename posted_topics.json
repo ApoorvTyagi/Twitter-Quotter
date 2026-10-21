@@ -13,5 +13,6 @@
   "Batch processing fundamentals",
   "Compaction strategies in LSM-trees",
   "Hash joins vs sort-merge joins",
-  "Volcano iterator model"
+  "Volcano iterator model",
+  "Partitioning strategies"
 ]
