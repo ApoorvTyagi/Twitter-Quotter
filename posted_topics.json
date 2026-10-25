@@ -14,5 +14,6 @@
   "Compaction strategies in LSM-trees",
   "Hash joins vs sort-merge joins",
   "Volcano iterator model",
-  "Partitioning strategies"
+  "Partitioning strategies",
+  "Leader-based replication"
 ]
