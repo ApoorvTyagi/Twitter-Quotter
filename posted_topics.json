@@ -15,5 +15,6 @@
   "Hash joins vs sort-merge joins",
   "Volcano iterator model",
   "Partitioning strategies",
-  "Leader-based replication"
+  "Leader-based replication",
+  "Log-structured storage engines"
 ]
